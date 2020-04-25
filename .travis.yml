@@ -5,6 +5,7 @@ jdk: openjdk8
 env:
   global:
   - secure: "encrypted-heroku-api-key"
+  - COMMIT=${TRAVIS_COMMIT::7}
 
 before_install:
   - chmod +x mvnw
