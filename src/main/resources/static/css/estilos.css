@@ -1,0 +1,46 @@
+* {
+    padding: 0;
+    margin:0;
+    font-family: 'Slabo 27px', serif;
+}
+#principal{
+    margin-top: 10%;
+}
+#formulario{
+    margin-left: 25%;
+}
+#perfil{
+    margin-left: 25%;
+}
+
+#registro{
+    display: none;
+}
+
+#estacionamiento{
+    display: none;
+}
+#espacios{
+    display: none;
+}
+#tarifas{
+    display: none;
+}
+#empleados{
+    display: none;
+}
+#mecanismos{
+    display: none;
+}
+
+#total_ref, #total_esp, #total_numeros, #total_desT, #total_tiempos, #total_valor, #total_nombres, #total_apellidos, #total_email, #total_direccion, #total_login, #total_pass, #total_telefono{
+    display: none;
+}
+
+footer{
+    padding: 5px 5px;
+    color: white;
+    text-align: left; 
+    background-color: #003F72;
+    margin-top: 4%;
+}

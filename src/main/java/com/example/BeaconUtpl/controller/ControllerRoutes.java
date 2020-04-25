@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 	public class ControllerRoutes {
 		@RequestMapping("/")
 		public String home() {
-			return "index";
+			return "login";
 		}
 
 		@GetMapping("/createUser")
