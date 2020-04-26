@@ -1,18 +1,111 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
-<head>
-<meta charset="ISO-8859-1">
-<title>Registro Beacons</title>
-</head>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <title>Sistema de posicionamiento - Biblioteca UTPL</title>
+    <link rel="stylesheet" type="text/css" href="css/loginCSS.css">
+    <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-auth.js"></script>
+    <script src="js/script.js"></script>
+    
+    <link rel="icon" type="image/png" href="img/beacon_icon.png">
+  </head>
 
-<body>
-	<div>
-	<p>AJAJJA </p>
+  <body>
+    <header>
+      <div class="nav_log">
+        <img src="img/custom-logo.png" alt="Escudo UTPL">
+        <div id="nav_derecha">
+          <div id="titulo"> Biblioteca "Benjamín Carrión"  |
+            Sistema de posicionamiento UTPL - Beacons
+        </div>
+        </div>
+      </div>
+      <div style="height: 5px; background-color:#EAAB00"></div>
+      <div id="contenedor menu" style="height: 5px; background-color:#EEEEEE"></div>
+    
+    </header>
+    
+    <div class="container">
+		
+		<div id="administrar">
 
-	
-	</div>
+			<h1 style="text-align: center;">Administración de la información</h1>
+			
+			<div class="row mt-4 mb-4">
+			  <div class="col-sm-6">
+			    <div class="card">
+			      <div class="card-body">
+			      <hr>
+					<h4 class="card-title">Usuarios</h4>
+					
+					<div class="cont_img">
+						<img class="img_ad" src="img/usuarios.png" alt="Administrar usuarios">
+					</div>
+			        <hr>
+			        <a href="#" class="btn btn-primary" style="width: 100%">Administrar</a>
+			      </div>
+			    </div>
+			  </div>
+			  <div class="col-sm-6 ">
+			    <div class="card">
+			      <div class="card-body">
+			       <hr>
+			        <h4 class="card-title">Áreas</h4>
+			        
+			        <div class="cont_img">
+						<img class="img_ad" src="img/areas.png" alt="Administrar usuarios">
+					</div>
+			         <hr>
+			       <a href="#" class="btn btn-primary" style="width: 100%">Administrar</a>
+			      </div>
+			    </div>
+			  </div>
+			</div>
+			<div class="row mt-4 mb-4">
+			  <div class="col-sm-6">
+			    <div class="card">
+			      <div class="card-body">
+			       <hr>
+			        <h4 class="card-title">Beacons</h4>
+			        
+			         <div class="cont_img">
+						<img class="img_ad" src="img/beacon.png" alt="Administrar usuarios">
+					</div>
+			       <hr>
+			       <a href="#" class="btn btn-primary" style="width: 100%">Administrar</a>
+			      </div>
+			    </div>
+			  </div>
+			  <div class="col-sm-6">
+			    <div class="card">
+			      <div class="card-body">
+			       <hr>
+			        <h4 class="card-title">Notificaciones</h4>
+			        
+			        
+			        <div class="cont_img">
+						<img class="img_ad" src="img/notificacion.png" alt="Administrar usuarios">
+					</div>
+			      <hr>
+			        <a href="#" class="btn btn-primary" style="width: 100%">Administrar</a>
+			      </div>
+			    </div>
+			  </div>
+			</div>
+			
+			
+			
+			
+		</div>
 
+      
+    </div>
 
-
-</body>
+    
+  </body>
 </html>

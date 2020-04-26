@@ -40,6 +40,37 @@ body {
 
 
 
+#administrar{
+	margin-top: 2%;
+	width: 80%;
+	margin-left: 10%;
+  	padding: 30px 30px 30px 30px;
+}
+
+.card{
+	text-align: center;
+	border-radius: 5%;
+}
+.card h4{
+	color: #003F72;
+}
+.img_ad{
+  width: 120px; 
+  height: 120px;
+  
+}
+
+
+
+
+
+
+
+
+
+
+
+
 @media screen and (max-width: 800px) {
   #login{
   	margin-top: 15%;

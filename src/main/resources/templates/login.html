@@ -7,9 +7,10 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <title>Sistema de posicionamiento - Biblioteca UTPL</title>
     <link rel="stylesheet" type="text/css" href="css/loginCSS.css">
-    
-   
-    
+    <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-auth.js"></script>
+    <script src="js/script.js"></script>
     
     <link rel="icon" type="image/png" href="img/beacon_icon.png">
   </head>
@@ -32,14 +33,14 @@
     <div class="container">
       <div id="login">
         <h2>Acceso al sistema</h2>
-         <form>
+         <form method="POST" action="/ingresar">
            <label for="username">Usuario</label>
-           <input type="email" id="email" placeholder="Ingrese su email" class="form-control my-3">
+           <input type="email" id="email_i" placeholder="Ingrese su email" class="form-control my-3">
         
            <!-- PASSWORD INPUT -->
            <label for="password">Password </label>
-           <input type="password" id="pass" placeholder="Ingrese su contrase&ntilde;a" class="form-control my-3">
-           <input id="btnIngresar" type="submit" value="Ingresar" class="btn btn-info" style="width: 100%;">
+           <input type="password" id="pass_i" placeholder="Ingrese su contrase&ntilde;a" class="form-control my-3">
+           <input type="submit" id="btnIngresar" value="Ingresar" class="btn btn-info" style="width: 100%;">
          <br/><br/>
            <a href="#">Olvidaste tu contrase&ntilde;a?</a><br>
        
