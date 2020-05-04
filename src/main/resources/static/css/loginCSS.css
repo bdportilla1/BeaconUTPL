@@ -4,7 +4,7 @@ body {
   background: url(../img/fondo2.jpg) no-repeat center top;
   background-size: cover;
   font-family: sans-serif;
-  height: 100vh;
+  height: auto;
 }
 
 .nav_log{
@@ -41,15 +41,26 @@ body {
 
 
 #administrar{
-	margin-top: 2%;
+  margin-top: 4%;
+  margin-bottom: 2%;
 	width: 80%;
 	margin-left: 10%;
-  	padding: 30px 30px 30px 30px;
+    padding: 30px 30px 30px 30px;
+    background-color:#003F72;;
+    border-radius: 5%;
+    
+ 
+
+    
+    
 }
+
 
 .card{
 	text-align: center;
-	border-radius: 5%;
+  border-radius: 5%;
+  background-color: #EEEEEE;
+	
 }
 .card h4{
 	color: #003F72;
@@ -59,6 +70,36 @@ body {
   height: 120px;
   
 }
+
+#gestion_usuarios, #gestion_beacons, #gestion_notificaciones, #gestion_areas{
+	padding: 30px 30px 30px 30px;
+  background-color: white;
+  border-radius: 5%;
+  margin-top: 2%;
+	width: 80%;
+  margin-left: 10%;
+  margin-bottom: 5%;
+  display: none;
+}
+#gestion_usuarios, #gestion_beacons, #gestion_notificaciones, #gestion_areas{
+  color: #003F72;
+	
+}
+
+#imgVolver{
+   width: 25%;
+}
+#imgVolver:hover{
+   width: 26%;
+}
+
+
+#atras{
+    position: absolute;
+}
+
+
+
 
 
 
