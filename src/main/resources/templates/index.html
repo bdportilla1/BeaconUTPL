@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="es">
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	 	lang="es">
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,8 +11,6 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-  
-   
     <title>Sistema de posicionamiento - Biblioteca UTPL</title>
     <link rel="stylesheet" type="text/css" href="css/loginCSS.css">
     <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-app.js"></script>
@@ -27,14 +27,53 @@
     <header>
       <div class="nav_log">
         <img src="img/custom-logo.png" alt="Escudo UTPL">
-        <div id="nav_derecha">
-          <div id="titulo"> Biblioteca "Benjamín Carrión"  |
-            Sistema de posicionamiento UTPL - Beacons
+        <div id="titulo">
+			<p> Biblioteca "Benjamín Carrión"  |
+				Sistema de posicionamiento UTPL - Beacons
+			<p>
         </div>
-        </div>
+        
+      
+		
+		
       </div>
       <div style="height: 5px; background-color:#EAAB00"></div>
-      <div id="contenedor menu" style="height: 5px; background-color:#EEEEEE"></div>
+      <div id="contenedormenu" style="height: 5px; background-color:#EEEEEE; clear: both;"></div>
+      
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<a class="navbar-brand" href="#">Inicio</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+		  <span class="navbar-toggler-icon"></span>
+		</button>
+		  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+		    <ul class="navbar-nav mr-auto">
+		      <li class="nav-item active">
+		        <a class="nav-link" href="#">Perfil</a>
+		      </li>
+		      <li class="nav-item active dropdown">
+		        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		          Administrar
+		        </a>
+		        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+		          <a class="dropdown-item" href="/">Usuarios</a>
+		          <a class="dropdown-item" href="/">Áreas</a>
+		          <a class="dropdown-item" href="/">Beacons</a>
+		          <a class="dropdown-item" href="/">Notificaciones</a>
+		        </div>
+		      </li>
+		      <li class="nav-item active">
+		        <a class="nav-link disabled" href="#" th:text="${sesionActual.nombre} + ' ' 
+			+ ${sesionActual.apellido} + '(' 
+			+ ${sesionActual.email} +')' "></a>
+		      </li>
+		    </ul>
+		    <form class="form-inline my-2 my-lg-0">
+		      <a href="/salir" class="btn btn-outline-danger my-2 my-sm-0" >Cerrar sesión</a>
+		    </form>
+		  </div>
+		</nav>
+      
+      
     
     </header>
     
@@ -147,39 +186,42 @@
 					  <button type="button" class="close" data-dismiss="modal">&times;</button>
 					</div>
 					<div class="modal-body">
-						<form action="/registrarUsuario" method="post">
+						<form id="formUsuario" action="/registrarUsuario" method="post">
+
+							<input type="text" id="_idUsuario" name="_id" style="display: none;">
 							<div class="row mt-4 mb-4">
 								<div class="col-sm-6">
 									<label for="identificacion">Identificación</label>
-									<input id="identificacion" type="text" class="form-control">
+									<input id="identificacion" name="identificacion" type="text" class="form-control">
 								</div>
 								<div class="col-sm-6">
 									<label for="Email">Email</label>
-									<input id="email" type="text" class="form-control">
+									<input id="email" name="email" type="text" class="form-control">
 								</div>
 							</div>
 							<div class="row mt-4 mb-4">
 								<div class="col-sm-6">
 									<label for="Nombres">Nombres</label>
-									<input id="nombres" type="text" class="form-control">
+									<input id="nombres" name="nombres" type="text" class="form-control">
 								</div>
 								<div class="col-sm-6">
 									<label for="Apellidos">Apellidos</label>
-									<input id="apellidos" type="text" class="form-control">
+									<input id="apellidos" name="apellidos" type="text" class="form-control">
 								</div>
 							</div>
 							<div class="row mt-4 mb-4">
 								<div class="col-sm-6">
 									<label for="Password">Contraseña</label>
-									<input id="pass" type="password" class="form-control">
+									<input id="pass" name="pass" type="password" class="form-control">
 								</div>
 								<div class="col-sm-6">
 									<label for="C_Password">Confirmar Contraseña</label>
-									<input id="pass1" type="password" class="form-control">
+									<input id="pass1" name="pass1" type="password" class="form-control">
 								</div>
 							</div>
+							<button type="submit" id="btnRegistrarUsuario" class="btn btn-success">Registrar usuario</button>
 						</form>
-						<button id="btnRegistrarUsuario" class="btn btn-success" onclick="guardarUsuario()">Registrar usuario</button>
+						
 					</div>
 					<div class="modal-footer">
 					  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -231,23 +273,24 @@
 					  <button type="button" class="close" data-dismiss="modal">&times;</button>
 					</div>
 					<div class="modal-body">
-						<form action="/registrarBeacon" method="post">
+						<form id="formBeacon" action="/registrarBeacon" method="post">
+							<input type="text" id="_idBeacon" name="_id" style="display: none;">
 							<div class="row mt-4 mb-4">
 								<div class="col-sm-12">
 									<label for="UID">UID</label>
-									<input id="UID" type="text" class="form-control">
+									<input id="UID" name="UID" type="text" class="form-control">
 								</div>
 								
 							</div>
 							<div class="row mt-4 mb-4">
 							<div class="col-sm-6">
 									<label for="Codigo">Código</label>
-									<input id="codigo_beacon" type="text" class="form-control">
+									<input id="codigo_beacon" name="codigo_beacon" type="text" class="form-control">
 								</div>
 								<div class="col-sm-6">
 									<label for="Estado">Estado</label>
 									<div class="form-group">
-									  <select class="form-control" id="estado">
+									  <select class="form-control" id="estado" name="estado"> 
 									    <option>Habilitado</option>
 									    <option>Deshabilitado</option>
 									  </select>
@@ -259,7 +302,7 @@
 								<div class="col-sm-6">
 									<label for="Notificacion">Notificación</label>
 									<div class="form-group">
-									  <select class="form-control" id="notificacion">
+									  <select class="form-control" id="notificacion" name="notificacion">
 									    <option>Habilitado</option>
 									    <option>Deshabilitado</option>
 									  </select>
@@ -267,13 +310,13 @@
 								</div>
 								<div class="col-sm-6">
 									<label for="Protocolo">Protocolo</label>
-									<input id="protocolo" type="text" class="form-control">
+									<input id="protocolo" name="protocolo" type="text" class="form-control">
 								</div>
 						
 							</div>
-							
+							<button type="submit" id="btnRegistrarBeacon" class="btn btn-success">Registrar Beacon</button>
 						</form>
-						<button id="btnRegistrarBeacon" class="btn btn-success" onclick="guardarBeacon()">Registrar Beacon</button>
+						
 					</div>
 					<div class="modal-footer">
 					  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -293,8 +336,10 @@
 				<hr>
 				<button type="button" class="btn btn-success" onclick="nuevoNotificacion()">Nueva Notificación</button>
 				<div class="table-responsive">
+					
+					
 					<table class="table my-3">
-						<thead>
+						<thead >
 						  <tr>
 							<th scope="col">#</th>
 							<th scope="col">Tipo</th>
@@ -303,8 +348,10 @@
 							<th scope="col">Eliminar</th>
 						  </tr>
 						</thead>
-						<tbody id="tabla_notificaciones">
-						</tbody>
+						
+							<tbody id="tabla_notificaciones">
+							</tbody>
+						
 					  </table>
 				</div> 
 				
@@ -320,23 +367,25 @@
 					  <button type="button" class="close" data-dismiss="modal">&times;</button>
 					</div>
 					<div class="modal-body">
-						<form action="/registrarNotificacion" method="post">
+						<form id="formNotificacion" action="/registrarNotificacion" method="post">
+							<input type="text" id="_idNotificacion" name="_id" style="display: none;">
 							<div class="row mt-4 mb-4">
 								<div class="col-sm-6">
 									<label for="tipo">Tipo</label>
 									<div class="form-group">
-										<select class="form-control" id="tipo">
+										<select class="form-control" id="tipo" name="tipo">
 										  
 										</select>
 									</div>
 								</div>
 								<div class="col-sm-6">
 									<label for="tipo">Descripción</label>
-									<textarea id="descripcion" rows="4"></textarea>
+									<textarea id="descripcion"  name="descripcion" rows="4"></textarea>
 								</div>
 							</div>
+							<button type="submit" id="btnRegistrarNotificacion" class="btn btn-success">Registrar Notificación</button>
 						</form>
-						<button id="btnRegistrarNotificacion" class="btn btn-success" onclick="guardarNotificacion()">Registrar Notificación</button>
+						
 					</div>
 					<div class="modal-footer">
 					  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -384,16 +433,17 @@
 					  <button type="button" class="close" data-dismiss="modal">&times;</button>
 					</div>
 					<div class="modal-body">
-						<form action="/registrarNotificacion" method="post">
+						<form id="formArea" action="/registrarArea" method="post">
+							<input type="text" id="_idArea" name="_id" style="display: none;">
 							<div class="row mt-4 mb-4">
 								<div class="col-sm-6">
 									<label for="Descripción">Descripción</label>
-									<input id="descripcion_area" type="text" class="form-control">
+									<input id="descripcion_area" name="descripcion_area" type="text" class="form-control">
 								</div>
 								<div class="col-sm-6">
 									<label for="piso">Piso</label>
 									<div class="form-group">
-										<select class="form-control" id="piso">
+										<select class="form-control" id="piso" name="piso">
 										</select>
 									</div>
 								</div>
@@ -402,21 +452,21 @@
 								<div class="col-sm-6">
 									<label for="referencia">Referencia</label>
 									<div class="form-group">
-										<select class="form-control" id="referencia">
+										<select class="form-control" id="referencia" name="referencia">
 										</select>
 									</div>
 								</div>
 								<div class="col-sm-6">
 									<label for="Imagen">Imagen</label>
 									<input type="file" id="img" name="img" accept="image/*">
-
 								</div>
 								
 
 
 							</div>
+							<button type="submit" id="btnRegistrarArea" class="btn btn-success">Registrar Area</button>
 						</form>
-						<button id="btnRegistrarArea" class="btn btn-success" onclick="guardarArea()">Registrar Area</button>
+						
 					</div>
 					<div class="modal-footer">
 					  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -424,28 +474,8 @@
 				  </div>
 				  
 				</div>
-				
 			  </div>
-			  
-			  
-			  
 		</div>
-		
-		
-		
-		
-		
-		
-		
-		
-		
-	  
-		
-
-
-		
     </div>
-
-    
   </body>
 </html>

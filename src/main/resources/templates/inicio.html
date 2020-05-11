@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+ 	lang="es">
+  
+  
+  <head th:replace="init :: _head" >  
+  
+   
+  <body>
+  	<header th:replace="init :: _header" > </header>
+  	
+    <div class="container">
+    
+    	<div id="administrar">
+			<h1 style="text-align: center; color: white;">Administración de la información</h1>
+			<div class="row mt-4 mb-4">
+			  <div class="col-sm-6">
+			    <div class="card">
+			      <div class="card-body">
+			      <hr>
+					<h4 class="card-title">Usuarios</h4>
+					
+					<div class="cont_img">
+						<img class="img_ad" src="img/usuarios.png" alt="Administrar usuarios">
+					</div>
+					<hr>
+					<a href="/gestion_usuarios" class="btn btn-primary" style="width: 100%;" >Administrar</a>
+			
+			      </div>
+			    </div>
+			  </div>
+			  <div class="col-sm-6 ">
+			    <div class="card">
+			      <div class="card-body">
+			       <hr>
+			        <h4 class="card-title">Áreas</h4>
+			        
+			        <div class="cont_img">
+						<img class="img_ad" src="img/areas.png" alt="Administrar Areas">
+					</div>
+					 <hr>
+					 <a href="/gestion_areas" class="btn btn-primary" style="width: 100%;" >Administrar</a>
+			      
+			      </div>
+			    </div>
+			  </div>
+			</div>
+			<div class="row mt-4 mb-4">
+			  <div class="col-sm-6">
+			    <div class="card">
+			      <div class="card-body">
+			       <hr>
+			        <h4 class="card-title">Beacons</h4>
+			        
+			         <div class="cont_img">
+						<img class="img_ad" src="img/beacon.png" alt="Administrar Beacons">
+					</div>
+				   <hr>
+				   <a href="/gestion_beacons" class="btn btn-primary" style="width: 100%;">Administrar</a>
+			      </div>
+			    </div>
+			  </div>
+			  <div class="col-sm-6">
+			    <div class="card">
+			      <div class="card-body">
+			       <hr>
+			        <h4 class="card-title">Notificaciones</h4>  
+			        <div class="cont_img">
+						<img class="img_ad" src="img/notificacion.png" alt="Administrar Notificaciones">
+					</div>
+				  <hr>
+				  <a href="/gestion_notificaciones" class="btn btn-primary" style="width: 100%;" >Administrar</a>
+			        
+			      </div>
+			    </div>
+			  </div>
+			</div>
+		</div>
+
+    </div>
+   
+  </body>
+  
+  
+  
+</html>

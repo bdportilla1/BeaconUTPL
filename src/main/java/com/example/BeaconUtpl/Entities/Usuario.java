@@ -4,16 +4,16 @@ public class Usuario {
 	
 	
 	String cedula;
-	String nombres;
-	String apellidos;
+	String nombre;
+	String apellido;
 	String email;
 	String pass;
 	
-	public Usuario(String cedula, String nombres, String apellidos, String email, String pass) {
+	public Usuario(String cedula, String nombre, String apellido, String email, String pass) {
 		super();
 		this.cedula = cedula;
-		this.nombres = nombres;
-		this.apellidos = apellidos;
+		this.nombre = nombre;
+		this.apellido = apellido;
 		this.email = email;
 		this.pass = pass;
 	}
@@ -26,17 +26,17 @@ public class Usuario {
 	public void setCedula(String cedula) {
 		this.cedula = cedula;
 	}
-	public String getNombres() {
-		return nombres;
+	public String getNombre() {
+		return nombre;
 	}
-	public void setNombres(String nombres) {
-		this.nombres = nombres;
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
-	public String getApellidos() {
-		return apellidos;
+	public String getApellido() {
+		return apellido;
 	}
-	public void setApellidos(String apellidos) {
-		this.apellidos = apellidos;
+	public void setApellido(String apellido) {
+		this.apellido = apellido;
 	}
 	public String getEmail() {
 		return email;

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+  
+   <head>
+  	<meta charset="utf-8">
+  </head>
+  <head th:replace="init :: _head" >  
+  
+  <body>
+  	<header th:replace="init :: _header" > </header>
+  	
+    <div class="container">
+    	<div id="gestion_beacons">
+			<h1 style="text-align: center;">Gestión de beacons</h1>
+			<div class="row mt-4 mb-4">
+				<h2>Listado de beacons</h2>
+				<hr>
+				<button type="button" class="btn btn-success" onclick="nuevoBeacon()">Nuevo Beacon</button>
+				<div class="table-responsive">
+					<table class="table my-3">
+						<thead>
+						  <tr>
+			
+							<th scope="col">#</th>
+							<th scope="col">UID</th>
+							<th scope="col">Código</th>
+							<th scope="col">Estado</th>
+							<th scope="col">Notificacion</th>
+							<th scope="col">Protocolo</th>
+							<th scope="col">Editar</th>
+							<th scope="col">Eliminar</th>
+						  </tr>
+						</thead>
+						<tbody id="tabla_beacons">
+						</tbody>
+					  </table>
+
+				</div> 
+				
+			</div>
+			<!-- Modal -->
+
+			  <div class="modal fade" id="modal_beacon" role="dialog">
+				<div class="modal-dialog">
+				  <!-- Modal content-->
+				  <div class="modal-content">
+					<div class="modal-header">
+					<h4 class="modal-title">Beacon</h4>
+					  <button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+					<div class="modal-body">
+						<form id="formBeacon" action="/registrarBeacon" method="post">
+							<input type="text" id="_idBeacon" name="_id" style="display: none;">
+							<div class="row mt-4 mb-4">
+								<div class="col-sm-12">
+									<label for="UID">UID</label>
+									<input id="UID" name="UID" type="text" class="form-control">
+								</div>
+								
+							</div>
+							<div class="row mt-4 mb-4">
+							<div class="col-sm-6">
+									<label for="Codigo">Código</label>
+									<input id="codigo_beacon" name="codigo_beacon" type="text" class="form-control">
+								</div>
+								<div class="col-sm-6">
+									<label for="Estado">Estado</label>
+									<div class="form-group">
+									  <select class="form-control" id="estado" name="estado"> 
+									    <option>Habilitado</option>
+									    <option>Deshabilitado</option>
+									  </select>
+									</div>
+								</div>
+								
+							</div>
+							<div class="row mt-4 mb-4">
+								<div class="col-sm-6">
+									<label for="Notificacion">Notificación</label>
+									<div class="form-group">
+									  <select class="form-control" id="notificacion" name="notificacion">
+									    <option>Habilitado</option>
+									    <option>Deshabilitado</option>
+									  </select>
+									</div>
+								</div>
+								<div class="col-sm-6">
+									<label for="Protocolo">Protocolo</label>
+									<input id="protocolo" name="protocolo" type="text" class="form-control">
+								</div>
+						
+							</div>
+							<button type="submit" id="btnRegistrarBeacon" class="btn btn-success">Registrar Beacon</button>
+						</form>
+						
+					</div>
+					<div class="modal-footer">
+					  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				  </div>
+				</div>
+			  </div>
+		</div>
+    </div>
+  </body>
+</html>

@@ -66,7 +66,12 @@ function cargarUsuarios(){
                 <td>${doc.data().apellido}</td>
                 <td>${doc.data().email}</td>
                 <td><button class="btn btn-warning" onclick="editarUsuario('${doc.id}', '${doc.data().cedula}', '${doc.data().nombre}', '${doc.data().apellido}', '${doc.data().email}')" >Editar</button></td>
-                <td><button class="btn btn-danger" onclick="eliminarUsuario('${doc.id}')">Eliminar</button></td>
+                <td>
+                <form action="/eliminarUsuario" method="POST">
+                    <input type="text" name="_id" class="form-control" value="${doc.id}" style="display: none;">
+                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                </form>
+                </td>
             </tr>
             `
         });
@@ -74,70 +79,6 @@ function cargarUsuarios(){
     usuarios=1;
 }
 
-function guardarUsuario(){
-    var cedula = document.getElementById("identificacion").value;
-    var email = document.getElementById("email").value;
-    var nombre = document.getElementById("nombres").value;
-    var apellido = document.getElementById("apellidos").value;
-    var pass = document.getElementById("pass").value;
-    db.collection("usuarios").add({
-        cedula: cedula,
-        nombre: nombre,
-        apellido: apellido,
-        email: email
-    })
-    .then(function(docRef) {
-        console.log("Document written with ID: ", docRef.id);
-        limpiar_camposUsuario();
-        $('#modal_usuario').modal('hide');
-    })
-    .catch(function(error) {
-        console.error("Error adding document: ", error);
-    });
-}
-
-function editarUsuario(id, cedula, nombre, apellido, email){
-	$('#modal_usuario').modal('show');
-    document.getElementById("identificacion").value = cedula;
-    document.getElementById("nombres").value = nombre;
-    document.getElementById("apellidos").value = apellido;
-    document.getElementById("email").value = email;
-    
-    var boton = document.getElementById("btnRegistrarUsuario");
-    boton.innerHTML= 'Actualizar Usuario';
-    boton.onclick= function(){
-        var ref = db.collection("usuarios").doc(id);
-        var cedula = document.getElementById("identificacion").value;
-        var nombre = document.getElementById("nombres").value;
-        var apellido = document.getElementById("apellidos").value;
-        var email = document.getElementById("email").value;
-        
-        return ref.update({
-            cedula: cedula,
-            nombre: nombre,
-            apellido: apellido,
-            email: email
-        })
-        .then(function() {
-            console.log("Document successfully written!");
-            boton.innerHTML="Registar Usuario";
-            $('#modal_usuario').modal('hide');
-            boton.onclick= function(){
-                guardarUsuario();
-            };
-        })
-        .catch(function(error) {
-            console.error("Error writing document: ", error);
-        });
-    }
-}
-function eliminarUsuario(id){
-    db.collection("usuarios").doc(id).delete().then(function() {
-        console.log("Document successfully deleted!");
-    }).catch(function(error) {
-        console.error("Error removing document: ", error);
-    });
-}
 
 
 
@@ -148,6 +89,7 @@ function eliminarUsuario(id){
 function nuevoUsuario(){
     limpiar_camposUsuario();
     $('#modal_usuario').modal('show');
+    document.getElementById("_idUsuario").value = "null";
     var boton = document.getElementById("btnRegistrarUsuario");
     boton.innerHTML= 'Registrar Usuario';
 }
@@ -155,18 +97,21 @@ function nuevoUsuario(){
 function nuevoBeacon(){
     limpiar_camposBeacon();
     $('#modal_beacon').modal('show');
+    document.getElementById("_idBeacon").value = "null";
     var boton = document.getElementById("btnRegistrarBeacon");
     boton.innerHTML= 'Registrar Beacon';
 }
 function nuevoNotificacion(){
     limpiar_camposNotificacion();
     $('#modal_notificacion').modal('show');
+    document.getElementById("_idNotificacion").value = "null";
     var boton = document.getElementById("btnRegistrarNotificacion");
     boton.innerHTML= 'Registrar Notificacion';
 }
 function nuevoArea(){
     limpiar_camposArea();
     $('#modal_area').modal('show');
+    document.getElementById("_idArea").value = "null";
     var boton = document.getElementById("btnRegistrarArea");
     boton.innerHTML= 'Registrar Área';
 }
@@ -186,79 +131,17 @@ function cargarBeacons(){
                 <td>${doc.data().notificacion}</td>
                 <td>${doc.data().protocolo}</td>
                 <td><button class="btn btn-warning" onclick="editarBeacon('${doc.id}', '${doc.data().UID}', '${doc.data().codigo}', '${doc.data().estado}', '${doc.data().notificacion}', '${doc.data().protocolo}')" >Editar</button></td>
-                <td><button class="btn btn-danger" onclick="eliminarBeacon('${doc.id}')">Eliminar</button></td>
+                <td><form action="/eliminarBeacon" method="POST">
+                    <input type="text" name="_id" class="form-control" value="${doc.id}" style="display: none;">
+                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                </form>	</td>
             </tr>
             `
         });
     });
     beacons=1;
 }
-function guardarBeacon(){
-    var UID = document.getElementById("UID").value;
-    var codigo = document.getElementById("codigo_beacon").value;
-    var estado = document.getElementById("estado").value;
-    var notificacion = document.getElementById("notificacion").value;
-    var protocolo = document.getElementById("protocolo").value;
-    db.collection("beacons").add({
-        UID: UID,
-        codigo: codigo,
-        estado: estado,
-        notificacion: notificacion,
-        protocolo: protocolo
-    })
-    .then(function(docRef) {
-        console.log("Document written with ID: ", docRef.id);
-        limpiar_camposBeacon();
-        $('#modal_beacon').modal('hide');
-    })
-    .catch(function(error) {
-        console.error("Error adding document: ", error);
-    });
-}
 
-function editarBeacon(id, UID, codigo, estado, notificacion, protocolo){
-	$('#modal_beacon').modal('show');
-    document.getElementById("UID").value = UID;
-    document.getElementById("codigo_beacon").value = codigo;
-    document.getElementById("estado").value = estado;
-    document.getElementById("notificacion").value = notificacion;
-    document.getElementById("protocolo").value = protocolo;
-    var boton = document.getElementById("btnRegistrarBeacon");
-    boton.innerHTML= 'Actualizar beacon';
-    boton.onclick= function(){
-        var ref = db.collection("beacons").doc(id);
-        var UID = document.getElementById("UID").value;
-        var codigo = document.getElementById("codigo_beacon").value;
-        var estado = document.getElementById("estado").value;
-        var notificacion = document.getElementById("notificacion").value;
-        var protocolo = document.getElementById("protocolo").value;
-        return ref.update({
-            UID: UID,
-            codigo: codigo,
-            estado: estado,
-            notificacion: notificacion,
-            protocolo: protocolo
-        })
-        .then(function() {
-            console.log("Document successfully written!");
-            boton.innerHTML="Registar Beacon";
-            $('#modal_beacon').modal('hide');
-            boton.onclick= function(){
-                guardarBeacon();
-            };
-        })
-        .catch(function(error) {
-            console.error("Error writing document: ", error);
-        });
-    }
-}
-function eliminarBeacon(id){
-    db.collection("beacons").doc(id).delete().then(function() {
-        console.log("Document successfully deleted!");
-    }).catch(function(error) {
-        console.error("Error removing document: ", error);
-    });
-}
 
 function cargarNotificaciones(){
     db.collection("notificaciones").onSnapshot((querySnapshot) => {
@@ -268,13 +151,21 @@ function cargarNotificaciones(){
             console.log(`${doc.id} => ${doc.data()}`);
             cont = cont +1;
             tabla_notificaciones.innerHTML += `
+            
+            
             <tr>
             <th scope="row">`+ cont +` </th>
                 <th scope="row">${doc.data().tipo}</th>
                 <td>${doc.data().descripcion}</td>
                 <td><button class="btn btn-warning" onclick="editarNotificacion('${doc.id}', '${doc.data().tipo}', '${doc.data().descripcion}')" >Editar</button></td>
-                <td><button class="btn btn-danger" onclick="eliminarNotificacion('${doc.id}')">Eliminar</button></td>
-            </tr>
+                <td>
+                <form action="/eliminarNotificacion" method="POST">
+                    <input type="text" name="_id" class="form-control" value="${doc.id}" style="display: none;">
+                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                </form>	
+                </td>	
+                </tr>
+                
             `
         });
     });
@@ -288,56 +179,7 @@ function cargarNotificaciones(){
     });
     notificaciones=0;
 }
-function guardarNotificacion(){
-    var tipo = document.getElementById("tipo").value;
-    var descripcion = document.getElementById("descripcion").value;
-    db.collection("notificaciones").add({
-        tipo: tipo,
-        descripcion: descripcion
-    })
-    .then(function(docRef) {
-        console.log("Document written with ID: ", docRef.id);
-        limpiar_camposNotificacion();
-        $('#modal_notificacion').modal('hide');
-    })
-    .catch(function(error) {
-        console.error("Error adding document: ", error);
-    });
-}
-function editarNotificacion(id, tipo, descripcion){
-	$('#modal_notificacion').modal('show');
-    document.getElementById("tipo").value = tipo;
-    document.getElementById("descripcion").value = descripcion;
-    var boton = document.getElementById("btnRegistrarNotificacion");
-    boton.innerHTML= 'Actualizar Notificación';
-    boton.onclick= function(){
-        var ref = db.collection("notificaciones").doc(id);
-        var tipo = document.getElementById("tipo").value;
-        var descripcion = document.getElementById("descripcion").value;
-        return ref.update({
-            tipo: tipo,
-            descripcion: descripcion
-        })
-        .then(function() {
-            console.log("Document successfully written!");
-            boton.innerHTML="Registar Notificación";
-            $('#modal_notificacion').modal('hide');
-            boton.onclick= function(){
-                guardarNotificacion();
-            };
-        })
-        .catch(function(error) {
-            console.error("Error writing document: ", error);
-        });
-    }
-}
-function eliminarNotificacion(id){
-    db.collection("notificaciones").doc(id).delete().then(function() {
-        console.log("Document successfully deleted!");
-    }).catch(function(error) {
-        console.error("Error removing document: ", error);
-    });
-}
+
 
 
 
@@ -355,7 +197,10 @@ function cargarAreas(){
                 <td>${doc.data().piso}</td>
                 <td>${doc.data().referencia}</td>
                 <td><button class="btn btn-warning" onclick="editarArea('${doc.id}', '${doc.data().descripcion}', '${doc.data().piso}', '${doc.data().referencia}')" >Editar</button></td>
-                <td><button class="btn btn-danger" onclick="eliminarArea('${doc.id}')">Eliminar</button></td>
+                <td><form action="/eliminarArea" method="POST">
+                    <input type="text" name="_id" class="form-control" value="${doc.id}" style="display: none;">
+                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                </form>	</td>
             </tr>
             `
         });
@@ -379,152 +224,12 @@ function cargarAreas(){
     areas=1;
 }
 
-function guardarArea(){
-    var referencia = document.getElementById("referencia").value;
-    var descripcion = document.getElementById("descripcion_area").value;
-    var piso = document.getElementById("piso").value;
 
-    db.collection("areas").add({
-        referencia: referencia,
-        descripcion: descripcion,
-        piso: piso
-    })
-    .then(function(docRef) {
-        console.log("Document written with ID: ", docRef.id);
-        limpiar_camposArea();
-        $('#modal_area').modal('hide');
-    })
-    .catch(function(error) {
-        console.error("Error adding document: ", error);
-    });
-}
-
-function editarArea(id, descripcion, piso, referencia){
-	$('#modal_area').modal('show');
-    document.getElementById("piso").value = piso;
-    document.getElementById("descripcion_area").value = descripcion;
-    document.getElementById("referencia").value = referencia;
-
-    var boton = document.getElementById("btnRegistrarArea");
-    boton.innerHTML= 'Actualizar Área';
-    boton.onclick= function(){
-        var ref = db.collection("areas").doc(id);
-        var descripcion = document.getElementById("descripcion_area").value;
-        var piso = document.getElementById("piso").value;
-        var referencia = document.getElementById("referencia").value;
-        
-        return ref.update({
-            referencia: referencia,
-            descripcion: descripcion,
-            piso:piso
-        })
-        .then(function() {
-            console.log("Document successfully written!");
-            boton.innerHTML="Registar Notificación";
-            $('#modal_area').modal('hide');
-            boton.onclick= function(){
-                guardarArea();
-            };
-        })
-        .catch(function(error) {
-            console.error("Error writing document: ", error);
-        });
-    }
-}
-
-function eliminarArea(id){
-    db.collection("areas").doc(id).delete().then(function() {
-        console.log("Document successfully deleted!");
-    }).catch(function(error) {
-        console.error("Error removing document: ", error);
-    });
-}
 
 
   
 
 
-
-
-function registrar(){
-    var email = document.getElementById('email').value;
-    var pass = document.getElementById('pass').value;
-
-    firebase.auth().createUserWithEmailAndPassword(email, pass)
-    .then(function(){
-        enviar_correo();
-    })
-    .catch(function(error) {
-        // Handle Errors here.
-        var errorCode = error.code;
-        var errorMessage = error.message;
-      });
-
-}
-
-function ingresar(){
-    var email = document.getElementById('email_i').value;
-    var pass = document.getElementById('pass_i').value;
-    firebase.auth().signInWithEmailAndPassword(email, pass)
-    .then(function(){
-        console.log("TE HAS LOGUEADO");
-
-    })
-    .catch(function(error) {
-        // Handle Errors here.
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        console.log(errorCode);
-        console.log(errorMessage);
-        // ...
-      });
-}
-
-function observador(){
-    firebase.auth().onAuthStateChanged(function(user) {
-        if (user) {
-          console.log("existe usuario activo");
-          // User is signed in.
-          var displayName = user.displayName;
-          var email = user.email;
-          // para verificar correo
-          console.log(user.emailVerified);
-          var emailVerified = user.emailVerified;
-          var photoURL = user.photoURL;
-          var isAnonymous = user.isAnonymous;
-          var uid = user.uid;
-          var providerData = user.providerData;
-          // ...
-        } else {
-          // User is signed out.
-          console.log("no existe usuario activo");
-          // ...
-        }
-      });
-}
-
-function salir(){
-    firebase.auth().signOut()
-    .then(function(){
-        console.log("Saliendo");
-
-    })
-    .catch(function(error){
-        console.log(error)
-    })
-}
-
-function enviar_correo(){
-    var user = firebase.auth().currentUser;
-    user.sendEmailVerification().then(function() {
-    // Email sent.
-        console.log("Enviando correo verificacion");
-    }).catch(function(error) {
-    // An error happened.
-        console.log(error);
-    });
-}
-//
 
 function limpiar_camposBeacon(){
     document.getElementById("UID").value = "";
@@ -549,64 +254,4 @@ function limpiar_camposUsuario(){
     document.getElementById("apellidos").value = "";
     document.getElementById("pass").value = "";
     document.getElementById("pass1").value = "";
-}
-
-
-
-function mostrarAdUsuarios(){
-    if(usuarios ==0){
-        cargarUsuarios();
-    }
-    //Panel principal
-    $('#administrar').hide();
-    // Administracion
-    $('#gestion_usuarios').show();
-    $('#gestion_beacons').hide();
-    $('#gestion_notificaciones').hide();
-    $('#gestion_areas').hide();
-}
-function mostrarAdBeacons(){
-	if(beacons ==0){
-        cargarBeacons();
-    }
-    //Panel principal
-    $('#administrar').hide();
-    // Administracion
-    $('#gestion_usuarios').hide();
-    $('#gestion_beacons').show();
-    $('#gestion_notificaciones').hide();
-    $('#gestion_areas').hide();
-}
-function mostrarAdNotificaciones(){
-	if(notificaciones ==0){
-        cargarNotificaciones();
-    }
-    //Panel principal
-    $('#administrar').hide();
-    // Administracion
-    $('#gestion_usuarios').hide();
-    $('#gestion_beacons').hide();
-    $('#gestion_notificaciones').show();
-    $('#gestion_areas').hide();
-}
-function mostrarAdAreas(){
-	if(areas ==0){
-        cargarAreas();
-    }
-    //Panel principal
-    $('#administrar').hide();
-    // Administracion
-    $('#gestion_usuarios').hide();
-    $('#gestion_beacons').hide();
-    $('#gestion_notificaciones').hide();
-    $('#gestion_areas').show();
-}
-function volver(){
-    //Panel principal
-    $('#administrar').show();
-    // Administracion
-    $('#gestion_usuarios').hide();
-    $('#gestion_beacons').hide();
-    $('#gestion_notificaciones').hide();
-    $('#gestion_areas').hide();
 }

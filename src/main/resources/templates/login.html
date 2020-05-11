@@ -1,61 +1,33 @@
 <!DOCTYPE html>
-<html lang="es">
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+  
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
- 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-  	
-  	<title>Sistema de posicionamiento - Biblioteca UTPL</title>
-    <link rel="stylesheet" type="text/css" href="css/loginCSS.css">
-    <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-firestore.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-auth.js"></script>
-    
-    <script src="js/script.js"></script>
-    
-    <link rel="icon" type="image/png" href="img/beacon_icon.png">
+  	<meta charset="utf-8">
   </head>
-
+  <head th:replace="init :: _head"/> 
   <body>
-    <header>
-      <div class="nav_log">
-        <img src="img/custom-logo.png" alt="Escudo UTPL">
-        <div id="nav_derecha">
-          <div id="titulo"> Biblioteca "Benjamín Carrión"  |
-            Sistema de posicionamiento UTPL - Beacons
-        </div>
-        </div>
-      </div>
-      <div style="height: 5px; background-color:#EAAB00"></div>
-      <div id="contenedor menu" style="height: 5px; background-color:#EEEEEE"></div>
+    <header th:replace="init :: _header" > </header>
     
-    </header>
-    
+
     <div class="container">
       <div id="login">
         <h2>Acceso al sistema</h2>
+        <div id="datos" th:if = "${datos_incorrectos}"> 
+        	<p>Los datos que ha ingresado son incorrectos</p>
+        </div>
          <form method="POST" action="/ingresar">
-           <label for="username">Usuario</label>
-           <input type="email" id="email_i" placeholder="Ingrese su email" class="form-control my-3">
+           <label for="username">Identificación</label>
+           <input type="text" id="email_i" name="identificacion" placeholder="Ingrese su identificación" class="form-control my-3">
         
            <!-- PASSWORD INPUT -->
            <label for="password">Password </label>
-           <input type="password" id="pass_i" placeholder="Ingrese su contrase&ntilde;a" class="form-control my-3">
+           <input type="password" id="pass_i" name="pass" placeholder="Ingrese su contrase&ntilde;a" class="form-control my-3">
            <input type="submit" id="btnIngresar" value="Ingresar" class="btn btn-info" style="width: 100%;">
          <br/><br/>
-           <a href="#">Olvidaste tu contrase&ntilde;a?</a><br>
-       
+           <a href="#">Olvidaste tu contraseña</a><br>
            <hr>
-           
          </form>
-   
-   
        </div>
     </div>
-
-    
   </body>
 </html>

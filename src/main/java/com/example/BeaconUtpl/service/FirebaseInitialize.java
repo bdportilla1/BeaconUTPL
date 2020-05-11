@@ -1,4 +1,4 @@
-/*package com.example.BeaconUtpl.service;
+package com.example.BeaconUtpl.service;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -29,4 +29,4 @@ public class FirebaseInitialize {
 				FirebaseApp.initializeApp(options);
 	}
 	
-}*/
+}
