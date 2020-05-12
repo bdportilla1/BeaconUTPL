@@ -10,13 +10,22 @@ body {
 .nav_log{
   padding: 0.2% 0.2%;
   background-color: #003F72;
+  width: 100%;
+}
+#logo{
+	float:left;
+	width: 35%;
+}
+#imgEscudo{
+	width: auto;
 }
 #titulo{
-  font-size: 28vm;
-  float: right;
-  padding: 10px 10px;
-  color: white;
+  float:right;
   width: 50%;
+  font-size: 40vm;
+  text-align:right;
+  padding: 10px 10px;
+  color: white; 
 }
 
 #login{
@@ -64,7 +73,7 @@ body {
   
 }
 
-#gestion_usuarios, #gestion_beacons, #gestion_notificaciones, #gestion_areas{
+#gestion_usuarios, #gestion_beacons, #gestion_notificaciones, #gestion_areas, #gestion_perfil {
 	padding: 30px 30px 30px 30px;
   background-color: white;
   border-radius: 5%;
@@ -99,6 +108,12 @@ body {
     position: absolute;
 }
 
+#info{
+	width: 100%;
+	text-align: center;
+	
+}
+
 
 
 
@@ -109,5 +124,7 @@ body {
   	width: 80%;
   	margin-left: 10%;
   }
+  
+
 }
 

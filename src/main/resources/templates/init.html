@@ -24,16 +24,17 @@
   <body>
     <header th:fragment="_header">
       <div class="nav_log">
-        <img src="img/custom-logo.png" alt="Escudo UTPL">
+      	<div id="logo">
+      		<img id="imgEscudo" src="img/custom-logo.png" alt="Escudo UTPL">
+      	</div>
         <div id="titulo">
 			<p> Biblioteca "Benjamín Carrión"  |
 				Sistema de posicionamiento UTPL - Beacons
 			<p>
         </div>
-	
+        <div style="height: 5px; background-color:#EAAB00; clear: both;"></div>
       </div>
-      <div style="height: 5px; background-color:#EAAB00"></div>
-      <div id="contenedormenu" style="height: 5px; background-color:#EEEEEE; clear: both;"></div>
+      <div id="contenedormenu" style="height: 5px; background-color:#EEEEEE; "></div>
       
       <nav class="navbar navbar-expand-lg navbar-light bg-light" th:if = "${sesionActual!=null}">
 		<a class="navbar-brand" href="/">Inicio</a>
@@ -43,7 +44,7 @@
 		  <div class="collapse navbar-collapse" id="navbarSupportedContent">
 		    <ul class="navbar-nav mr-auto">
 		      <li class="nav-item active">
-		        <a class="nav-link" href="#">Perfil</a>
+		        <a class="nav-link" href="/perfil">Perfil</a>
 		      </li>
 		      <li class="nav-item active dropdown">
 		        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

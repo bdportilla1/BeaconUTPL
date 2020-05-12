@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+  
+   <head>
+  	<meta charset="utf-8">
+  </head>
+  <head th:replace="init :: _head" >  
+  
+  <body>
+  	<header th:replace="init :: _header" > </header>
+  	
+    <div class="container">
+    	<div id="gestion_perfil">
+			<h1 style="text-align: center;">Perfil del usuario</h1>
+			<h2>Información personal</h2>
+			
+			<div class="row mt-4 mb-4">
+				<div id="info"> 
+					<form action="/actualizarPerfil">
+						<input type="text" id="_idArea" name="_id" style="display: none;">
+								<div class="row mt-4 mb-4">
+									<div class="col-sm-6">
+										<label for="Identificacion">Identificación</label>
+										<input disabled id="identificacion" name="identificacion" type="text" class="form-control" th:value="${sesionActual.cedula}"/>
+									</div>
+									<div class="col-sm-6">
+										<label for="Email">Email</label>
+										<input disabled id="email" name="email" type="email" class="form-control" th:value="${sesionActual.email}"/>
+									</div>
+								</div>
+								<div class="row mt-4 mb-4">
+									<div class="col-sm-6">
+										<label for="Nombres">Nombres</label>
+										<input disabled id="nombre" name="nombre" type="text" class="form-control" th:value="${sesionActual.nombre}"/>
+									</div>
+									<div class="col-sm-6">
+										<label for="Apellidos">Apellidos</label>
+										<input disabled id="apellido" name="apellido" type="text" class="form-control" th:value="${sesionActual.apellido}"/>
+									</div>
+								</div>
+								
+								
+								<div class="row mt-4 mb-4">
+									<div class="col-sm-6">
+										<label for="pass">Contraseña</label>
+										<input disabled id="pass" name="pass" type="text" class="form-control" th:value="${sesionActual.nombre}"/>
+									</div>
+									<div class="col-sm-6">
+										<label for="Apellidos">Confirmar Contraseña</label>
+										<input disabled id="pass1" name="pass1" type="text" class="form-control" th:value="${sesionActual.apellido}"/>
+									</div>
+								</div>
+								<button onclick="editarPerfil()" class="btn btn-info">Editar</button>
+								<button type="submit" id="btnActualizarPerfil" class="btn btn-success">Guardar</button>
+					
+							</form>
+							</div>
+			  </div>
+		</div>
+    </div>
+  </body>
+</html>

@@ -34,9 +34,9 @@ $(document).ready(function(){
         combo_areas = document.getElementById("referencia"); 
         
         
-        /*
+        
 		cargarUsuarios();
-        cargarBeacons();
+        /*cargarBeacons();
         cargarNotificaciones();
         cargarAreas();*/
 
@@ -79,19 +79,25 @@ function cargarUsuarios(){
     usuarios=1;
 }
 
-
-
-
-
-
-
-
 function nuevoUsuario(){
     limpiar_camposUsuario();
     $('#modal_usuario').modal('show');
     document.getElementById("_idUsuario").value = "null";
     var boton = document.getElementById("btnRegistrarUsuario");
     boton.innerHTML= 'Registrar Usuario';
+}
+function editarUsuario(id, cedula, nombre, apellido, email){
+	$('#modal_usuario').modal('show');
+	document.getElementById("_idUsuario").value = id;
+    document.getElementById("identificacion").value = cedula;
+    document.getElementById("nombres").value = nombre;
+    document.getElementById("apellidos").value = apellido;
+    document.getElementById("email").value = email;
+    
+    var boton = document.getElementById("btnRegistrarUsuario");
+    boton.innerHTML= 'Actualizar Usuario';
+    
+    
 }
 
 function nuevoBeacon(){
@@ -101,6 +107,21 @@ function nuevoBeacon(){
     var boton = document.getElementById("btnRegistrarBeacon");
     boton.innerHTML= 'Registrar Beacon';
 }
+
+function editarBeacon(id, UID, codigo, estado, notificacion, protocolo){
+	$('#modal_beacon').modal('show');
+	document.getElementById("_idBeacon").value = id;
+    document.getElementById("UID").value = UID;
+    document.getElementById("codigo_beacon").value = codigo;
+    document.getElementById("estado").value = estado;
+    document.getElementById("notificacion").value = notificacion;
+    document.getElementById("protocolo").value = protocolo;
+    var boton = document.getElementById("btnRegistrarBeacon");
+    boton.innerHTML= 'Actualizar beacon';
+}
+
+
+
 function nuevoNotificacion(){
     limpiar_camposNotificacion();
     $('#modal_notificacion').modal('show');
@@ -108,6 +129,18 @@ function nuevoNotificacion(){
     var boton = document.getElementById("btnRegistrarNotificacion");
     boton.innerHTML= 'Registrar Notificacion';
 }
+
+function editarNotificacion(id, tipo, descripcion){
+	$('#modal_notificacion').modal('show');
+	document.getElementById("_idNotificacion").value = id;
+    document.getElementById("tipo").value = tipo;
+    document.getElementById("descripcion").value = descripcion;
+    var boton = document.getElementById("btnRegistrarNotificacion");
+    boton.innerHTML= 'Actualizar Notificación';
+}
+
+
+
 function nuevoArea(){
     limpiar_camposArea();
     $('#modal_area').modal('show');
@@ -115,6 +148,17 @@ function nuevoArea(){
     var boton = document.getElementById("btnRegistrarArea");
     boton.innerHTML= 'Registrar Área';
 }
+
+function editarArea(id, descripcion, piso, referencia){
+	$('#modal_area').modal('show');
+	document.getElementById("_idArea").value = id;
+    document.getElementById("piso").value = piso;
+    document.getElementById("descripcion_area").value = descripcion;
+    document.getElementById("referencia").value = referencia;
+    var boton = document.getElementById("btnRegistrarArea");
+    boton.innerHTML= 'Actualizar Área';
+}
+
 
 function cargarBeacons(){
     db.collection("beacons").onSnapshot((querySnapshot) => {

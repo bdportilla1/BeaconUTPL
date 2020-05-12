@@ -40,6 +40,19 @@ import com.example.BeaconUtpl.service.FirebaseService;
 			}
 			return vista;
 		}
+		
+		@RequestMapping("/perfil")
+		public String perfil(Model model) {
+			String vista="";
+			if(sesion !=null){
+				model.addAttribute("sesionActual", sesion);
+				vista="perfil";
+			}else {
+				vista="login";
+			}
+			return vista;
+		}
+		
 		@RequestMapping("/gestion_usuarios")
 		public String gestion_usuarios(Model model) {
 			String vista="";
@@ -135,16 +148,20 @@ import com.example.BeaconUtpl.service.FirebaseService;
 	    		@RequestParam(name="apellidos", required=false) String apellidos,
 	    		@RequestParam(name="pass", required=false) String pass,
 	    		Model model) throws InterruptedException, ExecutionException {
-			
+			String vista="gestion_usuarios";
 			Usuario usuario = new Usuario(cedula, nombres, apellidos, email, pass);
 			firebaseService.guardarUsuario(_id, usuario);
-			return "index";
+		
+			model.addAttribute("sesionActual", sesion);
+			return vista;
 		}
 		@PostMapping("/eliminarUsuario")
 		public String eliminarUsuario(@RequestParam(name="_id", required=false) String _id,
 	    		Model model) throws InterruptedException, ExecutionException {
+			String vista="gestion_usuarios";
 			firebaseService.eliminarUsuario(_id);
-			return "index";
+			model.addAttribute("sesionActual", sesion);
+			return vista;
 		}
 		
 		
@@ -154,16 +171,19 @@ import com.example.BeaconUtpl.service.FirebaseService;
 				@RequestParam(name="piso", required=false) String piso, 
 				@RequestParam(name="referencia", required=false) String referencia, 
 	    		Model model) throws InterruptedException, ExecutionException {
-			
+			String vista= "gestion_areas";
 			Area area = new Area(descripcion, piso, referencia);
 			firebaseService.guardarArea(_id, area);
-			return "index";
+			model.addAttribute("sesionActual", sesion);
+			return vista;
 		}
 		@PostMapping("/eliminarArea")
 		public String eliminarArea(@RequestParam(name="_id", required=false) String _id,
 	    		Model model) throws InterruptedException, ExecutionException {
+			String vista= "gestion_areas";
 			firebaseService.eliminarArea(_id);
-			return "index";
+			model.addAttribute("sesionActual", sesion);
+			return vista;
 		}
 
 		@PostMapping("/registrarBeacon")
@@ -174,16 +194,20 @@ import com.example.BeaconUtpl.service.FirebaseService;
 				@RequestParam(name="notificacion", required=false) String notificacion, 
 				@RequestParam(name="protocolo", required=false) String protocolo, 
 	    		Model model) throws InterruptedException, ExecutionException {
-			
+			String vista= "gestion_beaconss";
 			Beacon beacon = new Beacon(UID, codigo_beacon, estado, notificacion, protocolo);
 			firebaseService.guardarBeacon(_id, beacon);
-			return "gestion_beacons";
+			model.addAttribute("sesionActual", sesion);
+			return vista;
 		}
+		
 		@PostMapping("/eliminarBeacon")
 		public String eliminarBeacon(@RequestParam(name="_id", required=false) String _id,
 	    		Model model) throws InterruptedException, ExecutionException {
+			String vista= "gestion_beacons";
 			firebaseService.eliminarBeacon(_id);
-			return "gestion_beacons";
+			model.addAttribute("sesionActual", sesion);
+			return vista;
 		}
 		
 	
@@ -192,16 +216,19 @@ import com.example.BeaconUtpl.service.FirebaseService;
 				@RequestParam(name="tipo", required=false) String tipo, 
 	    		@RequestParam(name="descripcion", required=false) String descripcion,
 	    		Model model) throws InterruptedException, ExecutionException {
-			
+			String vista= "gestion_notificaciones";
 			Notificacion notificacion = new Notificacion(tipo, descripcion);
 			firebaseService.guardarNotificacion(_id, notificacion);
-			return "gestion_notificaciones";
+			model.addAttribute("sesionActual", sesion);
+			return vista;
 		}
 		@PostMapping("/eliminarNotificacion")
 		public String eliminarNotificacion(@RequestParam(name="_id", required=false) String _id,
 	    		Model model) throws InterruptedException, ExecutionException {
+			String vista= "gestion_notificaciones";
 			firebaseService.eliminarNotificacion(_id);
-			return "gestion_notificaciones";
+			model.addAttribute("sesionActual", sesion);
+			return vista;
 		}
 		
 }
