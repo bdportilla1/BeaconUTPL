@@ -1,8 +1,10 @@
 package com.example.BeaconUtpl.service;
 
 import java.security.MessageDigest;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import javax.crypto.Cipher;
@@ -20,6 +22,8 @@ import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
+import com.google.cloud.firestore.QueryDocumentSnapshot;
+import com.google.cloud.firestore.QuerySnapshot;
 import com.google.cloud.firestore.SetOptions;
 import com.google.cloud.firestore.WriteResult;
 import com.google.firebase.cloud.FirestoreClient;
@@ -39,7 +43,6 @@ public class FirebaseService {
 		if(_id.equals("null")) {
 			//guardar documento nuevo
 			ApiFuture<WriteResult> future = dbFirestore.collection("usuarios").document(usuario.getCedula()).set(docData);
-	
 		}else {	
 			//actualizar documento
 			ApiFuture<WriteResult> writeResult =
@@ -49,6 +52,26 @@ public class FirebaseService {
 			        .set(docData, SetOptions.merge());
 		}
 	}
+	
+	public List<Usuario> getUsuarios() throws InterruptedException, ExecutionException {
+		Firestore dbFirestore = FirestoreClient.getFirestore();
+		ArrayList<Usuario> returnArray = new ArrayList();
+		
+		ApiFuture<QuerySnapshot> future = dbFirestore.collection("usuarios").get();
+		// future.get() blocks on response
+		List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+		for (DocumentSnapshot document : documents) {
+			returnArray.add(document.toObject(Usuario.class));
+			//System.out.println(document.getId() + " => " + document.toObject(Usuario.class));
+		}
+		
+		return returnArray;
+	}
+	
+	
+	
+	
+	
 	public void guardarArea(String _id, Area area) throws InterruptedException, ExecutionException {
 		//Seteando el objeto Area
 		Firestore dbFirestore = FirestoreClient.getFirestore();

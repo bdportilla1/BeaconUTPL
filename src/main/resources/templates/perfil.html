@@ -16,12 +16,12 @@
 			
 			<div class="row mt-4 mb-4">
 				<div id="info"> 
-					<form action="/actualizarPerfil">
-						<input type="text" id="_idArea" name="_id" style="display: none;">
+					<form action="/actualizarPerfil" method="post">
+						<input name="_id" type="text" class="form-control" style="display: none;" th:value="${sesionActual.cedula}"/>
 								<div class="row mt-4 mb-4">
 									<div class="col-sm-6">
 										<label for="Identificacion">Identificación</label>
-										<input disabled id="identificacion" name="identificacion" type="text" class="form-control" th:value="${sesionActual.cedula}"/>
+										<input disabled id="identificacion" type="text" class="form-control" th:value="${sesionActual.cedula}"/>
 									</div>
 									<div class="col-sm-6">
 										<label for="Email">Email</label>
@@ -43,17 +43,22 @@
 								<div class="row mt-4 mb-4">
 									<div class="col-sm-6">
 										<label for="pass">Contraseña</label>
-										<input disabled id="pass" name="pass" type="text" class="form-control" th:value="${sesionActual.nombre}"/>
+										<input disabled id="pass" name="pass" type="password" class="form-control">
 									</div>
 									<div class="col-sm-6">
 										<label for="Apellidos">Confirmar Contraseña</label>
-										<input disabled id="pass1" name="pass1" type="text" class="form-control" th:value="${sesionActual.apellido}"/>
+										<input disabled id="pass1" name="pass1" type="password" class="form-control">
 									</div>
 								</div>
-								<button onclick="editarPerfil()" class="btn btn-info">Editar</button>
 								<button type="submit" id="btnActualizarPerfil" class="btn btn-success">Guardar</button>
-					
+								<button class="btn btn-info" onclick="editarPerfil()">Editar</button>
+								
 							</form>
+								<form action="/eliminarPerfil" method="POST">
+									<input name="_id" type="text" class="form-control" style="display: none;" th:value="${sesionActual.cedula}"/>					
+									<button type="submit" class="btn btn-danger">Eliminar cuenta</button>
+								</form>
+							
 							</div>
 			  </div>
 		</div>

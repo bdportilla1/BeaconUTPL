@@ -18,7 +18,6 @@ import com.example.BeaconUtpl.Entities.Usuario;
 import com.example.BeaconUtpl.service.FirebaseService;
 
 
-
 	
 	@Controller
 	public class ControllerRoutes {
@@ -27,7 +26,6 @@ import com.example.BeaconUtpl.service.FirebaseService;
 		
 		@Autowired
 		FirebaseService firebaseService;
-		
 		
 		@RequestMapping("/")
 		public String home(Model model) {
@@ -101,8 +99,6 @@ import com.example.BeaconUtpl.service.FirebaseService;
 		}
 		
 		
-		
-		
 
 		@RequestMapping("/salir")
 		public String salir(Model model) {
@@ -151,16 +147,40 @@ import com.example.BeaconUtpl.service.FirebaseService;
 			String vista="gestion_usuarios";
 			Usuario usuario = new Usuario(cedula, nombres, apellidos, email, pass);
 			firebaseService.guardarUsuario(_id, usuario);
-		
 			model.addAttribute("sesionActual", sesion);
 			return vista;
 		}
+		@PostMapping("/actualizarPerfil")
+		public String actualizarPerfil(@RequestParam(name="_id", required=false) String _id, 
+				@RequestParam(name="identificacion", required=false) String cedula,
+				@RequestParam(name="email", required=false) String email, 
+				@RequestParam(name="nombre", required=false) String nombres, 
+	    		@RequestParam(name="apellido", required=false) String apellidos,
+	    		@RequestParam(name="pass", required=false) String pass,
+	    		Model model) throws InterruptedException, ExecutionException {
+			String vista="perfil";
+			Usuario usuario = new Usuario(cedula, nombres, apellidos, email, pass);
+			firebaseService.guardarUsuario(_id, usuario);
+			sesion= usuario;
+			model.addAttribute("sesionActual", sesion);
+			return vista;
+		}
+		
+		
+		
 		@PostMapping("/eliminarUsuario")
 		public String eliminarUsuario(@RequestParam(name="_id", required=false) String _id,
 	    		Model model) throws InterruptedException, ExecutionException {
 			String vista="gestion_usuarios";
 			firebaseService.eliminarUsuario(_id);
 			model.addAttribute("sesionActual", sesion);
+			return vista;
+		}
+		@PostMapping("/eliminarPerfil")
+		public String eliminarPerfil(@RequestParam(name="_id", required=false) String _id,
+	    		Model model) throws InterruptedException, ExecutionException {
+			String vista="login";
+			firebaseService.eliminarUsuario(_id);
 			return vista;
 		}
 		

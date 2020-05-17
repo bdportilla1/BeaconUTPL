@@ -33,21 +33,11 @@ $(document).ready(function(){
         combo_pisos = document.getElementById("piso"); 
         combo_areas = document.getElementById("referencia"); 
         
-        
-        
 		cargarUsuarios();
         /*cargarBeacons();
         cargarNotificaciones();
         cargarAreas();*/
-
-
-
         //observador();
-        
-
-
-
-
 
 });
 
@@ -96,9 +86,16 @@ function editarUsuario(id, cedula, nombre, apellido, email){
     
     var boton = document.getElementById("btnRegistrarUsuario");
     boton.innerHTML= 'Actualizar Usuario';
-    
-    
 }
+
+function editarPerfil() {
+    document.getElementById("email").disabled = false;
+    document.getElementById("nombre").disabled = false;
+    document.getElementById("apellido").disabled = false;
+    document.getElementById("pass").disabled = false;
+    document.getElementById("pass1").disabled = false;
+}
+
 
 function nuevoBeacon(){
     limpiar_camposBeacon();
