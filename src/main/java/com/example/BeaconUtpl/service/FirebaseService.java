@@ -56,7 +56,6 @@ public class FirebaseService {
 	public List<Usuario> getUsuarios() throws InterruptedException, ExecutionException {
 		Firestore dbFirestore = FirestoreClient.getFirestore();
 		ArrayList<Usuario> returnArray = new ArrayList();
-		
 		ApiFuture<QuerySnapshot> future = dbFirestore.collection("usuarios").get();
 		// future.get() blocks on response
 		List<QueryDocumentSnapshot> documents = future.get().getDocuments();
@@ -64,7 +63,44 @@ public class FirebaseService {
 			returnArray.add(document.toObject(Usuario.class));
 			//System.out.println(document.getId() + " => " + document.toObject(Usuario.class));
 		}
-		
+		return returnArray;
+	}
+	public List<Notificacion> getNotificaciones() throws InterruptedException, ExecutionException {
+		Firestore dbFirestore = FirestoreClient.getFirestore();
+		ArrayList<Notificacion> returnArray = new ArrayList();
+		ApiFuture<QuerySnapshot> future = dbFirestore.collection("notificaciones").get();
+		// future.get() blocks on response
+		List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+		for (DocumentSnapshot document : documents) {
+			returnArray.add(document.toObject(Notificacion.class));
+			//System.out.println(document.getId() + " => " + document.toObject(Usuario.class));
+		}
+		return returnArray;
+	}
+	
+	public List<Beacon> getBeacons() throws InterruptedException, ExecutionException {
+		Firestore dbFirestore = FirestoreClient.getFirestore();
+		ArrayList<Beacon> returnArray = new ArrayList();
+		ApiFuture<QuerySnapshot> future = dbFirestore.collection("beacons").get();
+		// future.get() blocks on response
+		List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+		for (DocumentSnapshot document : documents) {
+			returnArray.add(document.toObject(Beacon.class));
+			//System.out.println(document.getId() + " => " + document.toObject(Usuario.class));
+		}
+		return returnArray;
+	}
+	
+	public List<Area> getAreas() throws InterruptedException, ExecutionException {
+		Firestore dbFirestore = FirestoreClient.getFirestore();
+		ArrayList<Area> returnArray = new ArrayList();
+		ApiFuture<QuerySnapshot> future = dbFirestore.collection("areas").get();
+		// future.get() blocks on response
+		List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+		for (DocumentSnapshot document : documents) {
+			returnArray.add(document.toObject(Area.class));
+			//System.out.println(document.getId() + " => " + document.toObject(Usuario.class));
+		}
 		return returnArray;
 	}
 	

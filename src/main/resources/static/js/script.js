@@ -10,6 +10,18 @@ var areas=0;
 var beacons=0;
 var notificaciones=0;
 
+const url_usuarios = 'https://beacon-utpl.herokuapp.com/api';
+
+
+function cargar_Usuarios(){
+	
+	fetch(url_usuarios, {mode: 'no-cors'})
+	  .then(response => response.json())
+	  .then(data => console.log(data));
+}
+
+
+
 
 
 $(document).ready(function(){
@@ -33,7 +45,8 @@ $(document).ready(function(){
         combo_pisos = document.getElementById("piso"); 
         combo_areas = document.getElementById("referencia"); 
         
-		cargarUsuarios();
+        //cargarUsuarios();
+        cargar_Usuarios();
         /*cargarBeacons();
         cargarNotificaciones();
         cargarAreas();*/
@@ -135,8 +148,6 @@ function editarNotificacion(id, tipo, descripcion){
     var boton = document.getElementById("btnRegistrarNotificacion");
     boton.innerHTML= 'Actualizar Notificación';
 }
-
-
 
 function nuevoArea(){
     limpiar_camposArea();
