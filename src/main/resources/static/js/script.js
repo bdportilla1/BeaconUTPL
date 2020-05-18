@@ -15,9 +15,37 @@ const url_usuarios = 'https://beacon-utpl.herokuapp.com/api/usuarios';
 
 function cargar_Usuarios(){
 	
-	fetch(url_usuarios, {mode: 'no-cors'})
+	fetch(url_usuarios, {
+		mode: 'no-cors',
+		method: 'GET',
+		headers: { 'Content-Type': 'application/json'}
+			})
 	  .then(response => response.json())
 	  .then(data => console.log(data));
+	
+	
+  /*  $.ajax({
+        url: url_usuarios,
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        type: "get",
+        dataType: "json",
+        success: function (response) {
+
+          if(response.data.length == 0){ 
+              // EMPTY
+             }else{
+              var obj =jQuery.parseJSON(response.data);
+                console.log(obj);
+             }
+         }
+	});*/
+	
+	
+	
+	
+	
 }
 
 

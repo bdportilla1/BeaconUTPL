@@ -51,9 +51,11 @@
 									</div>
 								</div>
 								<button type="submit" id="btnActualizarPerfil" class="btn btn-success">Guardar</button>
-								<button class="btn btn-info" onclick="editarPerfil()">Editar</button>
 								
 							</form>
+								<button class="btn btn-info" onclick="editarPerfil()">Editar</button>
+								
+							
 								<form action="/eliminarPerfil" method="POST">
 									<input name="_id" type="text" class="form-control" style="display: none;" th:value="${sesionActual.cedula}"/>					
 									<button type="submit" class="btn btn-danger">Eliminar cuenta</button>
