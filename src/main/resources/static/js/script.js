@@ -10,7 +10,7 @@ var areas=0;
 var beacons=0;
 var notificaciones=0;
 
-const url_usuarios = 'https://beacon-utpl.herokuapp.com/api';
+const url_usuarios = 'https://beacon-utpl.herokuapp.com/api/usuarios';
 
 
 function cargar_Usuarios(){
