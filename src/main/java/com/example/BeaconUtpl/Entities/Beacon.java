@@ -13,9 +13,9 @@ public class Beacon {
 	}
 	
 
-	public Beacon(String uID, String codigo, String estado, String notificacion, String protocolo) {
+	public Beacon(String UID, String codigo, String estado, String notificacion, String protocolo) {
 		super();
-		UID = uID;
+		this.UID = UID;
 		this.codigo = codigo;
 		this.estado = estado;
 		this.notificacion = notificacion;
@@ -24,8 +24,8 @@ public class Beacon {
 	public String getUID() {
 		return UID;
 	}
-	public void setUID(String uID) {
-		UID = uID;
+	public void setUID(String UID) {
+		this.UID = UID;
 	}
 	public String getCodigo() {
 		return codigo;
@@ -51,6 +51,9 @@ public class Beacon {
 	public void setProtocolo(String protocolo) {
 		this.protocolo = protocolo;
 	}
+	
+	
+	
 	
 	
 	

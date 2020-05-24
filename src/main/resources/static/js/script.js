@@ -1,51 +1,81 @@
 var db;
+var storage;
+var storageRef;
+
 var tabla_usuarios;
 var tabla_beacons;
 var combo_tiposNotificacion;
 var combo_pisos;
 var combo_areas;
 
-var usuarios=0;
+
 var areas=0;
 var beacons=0;
 var notificaciones=0;
 
 const url_usuarios = 'https://beacon-utpl.herokuapp.com/api/usuarios';
+const url_beacons = 'https://beacon-utpl.herokuapp.com/api/beacons';
 
 
 function cargar_Usuarios(){
-	
-	fetch(url_usuarios, {
-		mode: 'no-cors',
-		method: 'GET',
-		headers: { 'Content-Type': 'application/json'}
-			})
-	  .then(response => response.json())
-	  .then(data => console.log(data));
-	
-	
-  /*  $.ajax({
-        url: url_usuarios,
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        type: "get",
-        dataType: "json",
-        success: function (response) {
+	fetch(url_usuarios)
+    .then(res => res.json())
+    .then((datos) => {
+       console.log(datos);
+       cont =0;
+       tabla_usuarios.innerHTML='';
+		for(let valor of datos){
+			console.log(valor.nombre);
+			cont = cont+1;
+            tabla_usuarios.innerHTML += `
+            <tr>
+                <th scope="row">`+ cont +` </th>
+                <td>${valor.cedula}</td>
+                <td>${valor.nombre}</td>
+                <td>${valor.apellido}</td>
+                <td>${valor.email}</td>
+                <td><button class="btn btn-warning" onclick="editarUsuario('${valor.cedula}', '${valor.cedula}', '${valor.nombre}', '${valor.apellido}', '${valor.email}')" >Editar</button></td>
+                <td>
+                <form action="/eliminarUsuario" method="POST">
+                    <input type="text" name="_id" class="form-control" value="${valor.cedula}" style="display: none;">
+                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                </form>
+                </td>
+            </tr>
+            `
+		}
+    }).catch(err => console.error(err));
+}
 
-          if(response.data.length == 0){ 
-              // EMPTY
-             }else{
-              var obj =jQuery.parseJSON(response.data);
-                console.log(obj);
-             }
-         }
-	});*/
-	
-	
-	
-	
-	
+function cargar_Beacons(){
+
+    fetch(url_beacons)
+    .then(res => res.json())
+    .then((datos) => {
+       console.log(datos);
+       cont =0;
+       tabla_beacons.innerHTML='';
+		for(let valor of datos){
+			console.log(valor.uid);
+            cont = cont+1;
+            tabla_beacons.innerHTML += `
+            <tr>
+            <th scope="row">`+ cont +` </th>
+                <td>${valor.uid}</td>
+                <td>${valor.codigo}</td>
+                <td>${valor.estado}</td>
+                <td>${valor.notificacion}</td>
+                <td>${valor.protocolo}</td>
+                <td><button class="btn btn-warning" onclick="editarBeacon('${valor.uid}', '${valor.uid}', '${valor.codigo}', '${valor.estado}', '${valor.notificacion}', '${valor.protocolo}')" >Editar</button></td>
+                <td><form action="/eliminarBeacon" method="POST">
+                    <input type="text" name="_id" class="form-control" value="${valor.uid}" style="display: none;">
+                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                </form>	</td>
+            </tr>
+            `
+            
+		}
+    }).catch(err => console.error(err));
 }
 
 
@@ -66,6 +96,8 @@ $(document).ready(function(){
 
 		firebase.initializeApp(config);
 		db = firebase.firestore();
+		storageRef = firebase.storage().ref();
+	
 
         tabla_usuarios = document.getElementById("tabla_usuarios");
         tabla_beacons = document.getElementById("tabla_beacons");
@@ -74,13 +106,26 @@ $(document).ready(function(){
         combo_areas = document.getElementById("referencia"); 
         
         //cargarUsuarios();
-        cargar_Usuarios();
+        //cargar_Usuarios();
+        //cargar_Beacons();
         /*cargarBeacons();
         cargarNotificaciones();
         cargarAreas();*/
-        //observador();
+     
 
 });
+
+
+function subirImg(){
+	var file = document.getElementById("imgArea");
+	var img_subir = file.files[0];
+	var nombreImgEncode= encodeURI(img_subir.name);
+	var p1 = "https://firebasestorage.googleapis.com/v0/b/beaconinformation-aed2b.appspot.com/o/img%2F"+nombreImgEncode +"?alt=media";
+    //console.log(img_subir.name);
+    //console.log(p1);
+    var upload = storageRef.child('img/'+ img_subir.name).put(img_subir);
+    document.getElementById("url").value=p1;
+}
 
 
 function cargarUsuarios(){

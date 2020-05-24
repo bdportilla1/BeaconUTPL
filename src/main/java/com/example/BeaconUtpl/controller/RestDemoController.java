@@ -26,18 +26,25 @@ public class RestDemoController {
 	
 	@GetMapping("/usuarios")
 	public List <Usuario> listarUsuarios() throws InterruptedException, ExecutionException{
+		System.out.println("Devuelto usuarios");
 		return firebaseServise.getUsuarios();
 	}
 	@GetMapping("/areas")
 	public List <Area> listarAreas() throws InterruptedException, ExecutionException{
-		return firebaseServise.getAreas();
+		System.out.println("Devuelto areas");
+		
+		List<Area> ls= firebaseServise.getAreas();
+		System.out.println(ls.toString());
+		return ls;
 	}
 	@GetMapping("/beacons")
 	public List <Beacon> listarBeacons() throws InterruptedException, ExecutionException{
+		System.out.println("Devuelto beacons");
 		return firebaseServise.getBeacons();
 	}
 	@GetMapping("/notificaciones")
 	public List <Notificacion> listarNotificaciones() throws InterruptedException, ExecutionException{
+		System.out.println("Devuelto notificaciones");
 		return firebaseServise.getNotificaciones();
 	}
 

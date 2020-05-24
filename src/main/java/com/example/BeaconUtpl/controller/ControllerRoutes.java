@@ -159,7 +159,7 @@ import com.example.BeaconUtpl.service.FirebaseService;
 	    		@RequestParam(name="pass", required=false) String pass,
 	    		Model model) throws InterruptedException, ExecutionException {
 			String vista="perfil";
-			Usuario usuario = new Usuario(cedula, nombres, apellidos, email, pass);
+			Usuario usuario = new Usuario(_id, nombres, apellidos, email, pass);
 			firebaseService.guardarUsuario(_id, usuario);
 			sesion= usuario;
 			model.addAttribute("sesionActual", sesion);
@@ -187,12 +187,14 @@ import com.example.BeaconUtpl.service.FirebaseService;
 		
 		@PostMapping("/registrarArea")
 		public String registrarArea(@RequestParam(name="_id", required=false) String _id, 
+				@RequestParam(name="nombre_area", required=false) String nombre,
 				@RequestParam(name="descripcion_area", required=false) String descripcion,
 				@RequestParam(name="piso", required=false) String piso, 
-				@RequestParam(name="referencia", required=false) String referencia, 
+				@RequestParam(name="referencia", required=false) String referencia,
+				@RequestParam(name="url", required=false) String url,
 	    		Model model) throws InterruptedException, ExecutionException {
 			String vista= "gestion_areas";
-			Area area = new Area(descripcion, piso, referencia);
+			Area area = new Area(nombre, descripcion, referencia, piso, url);
 			firebaseService.guardarArea(_id, area);
 			model.addAttribute("sesionActual", sesion);
 			return vista;
@@ -214,7 +216,7 @@ import com.example.BeaconUtpl.service.FirebaseService;
 				@RequestParam(name="notificacion", required=false) String notificacion, 
 				@RequestParam(name="protocolo", required=false) String protocolo, 
 	    		Model model) throws InterruptedException, ExecutionException {
-			String vista= "gestion_beaconss";
+			String vista= "gestion_beacons";
 			Beacon beacon = new Beacon(UID, codigo_beacon, estado, notificacion, protocolo);
 			firebaseService.guardarBeacon(_id, beacon);
 			model.addAttribute("sesionActual", sesion);

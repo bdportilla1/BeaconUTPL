@@ -17,7 +17,8 @@ import com.example.BeaconUtpl.Entities.Area;
 import com.example.BeaconUtpl.Entities.Beacon;
 import com.example.BeaconUtpl.Entities.Notificacion;
 import com.example.BeaconUtpl.Entities.Usuario;
-import com.google.api.client.repackaged.org.apache.commons.codec.binary.Base64;
+import com.google.api.client.util.Base64;
+//import com.google.api.client.repackaged.org.apache.commons.codec.binary.Base64;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
@@ -26,7 +27,9 @@ import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
 import com.google.cloud.firestore.SetOptions;
 import com.google.cloud.firestore.WriteResult;
+import com.google.cloud.storage.Bucket;
 import com.google.firebase.cloud.FirestoreClient;
+import com.google.firebase.cloud.StorageClient;
 
 @Service
 public class FirebaseService {
@@ -34,6 +37,8 @@ public class FirebaseService {
 	public void guardarUsuario(String _id, Usuario usuario) throws InterruptedException, ExecutionException {
 		//Seteando el objeto Usuario
 		Firestore dbFirestore = FirestoreClient.getFirestore();
+		
+		
 		Map<String, Object> docData = new HashMap<>();
 		docData.put("cedula", usuario.getCedula());
 		docData.put("nombre", usuario.getNombre() );
@@ -111,10 +116,13 @@ public class FirebaseService {
 	public void guardarArea(String _id, Area area) throws InterruptedException, ExecutionException {
 		//Seteando el objeto Area
 		Firestore dbFirestore = FirestoreClient.getFirestore();
+
 		Map<String, Object> docData = new HashMap<>();
+		docData.put("nombre", area.getNombre());
 		docData.put("descripcion", area.getDescripcion());
 		docData.put("piso", area.getPiso() );
 		docData.put("referencia", area.getReferencia());
+		docData.put("url", area.getUrl());
 	
 		if(_id.equals("null")) {
 			//guardar documento nuevo
@@ -141,7 +149,8 @@ public class FirebaseService {
 	
 		if(_id.equals("null")) {
 			//guardar documento nuevo
-			ApiFuture<WriteResult> future = dbFirestore.collection("beacons").document().set(docData);
+			
+			ApiFuture<WriteResult> future = dbFirestore.collection("beacons").document(beacon.getUID()).set(docData);
 		}else {	
 			//actualizar documento
 			ApiFuture<WriteResult> writeResult =
@@ -249,7 +258,7 @@ public class FirebaseService {
         String base64EncryptedString = "";
 
         try {
-            byte[] message = Base64.decodeBase64(textoEncriptado.getBytes("utf-8"));
+            byte[] message = com.google.api.client.util.Base64.decodeBase64(textoEncriptado.getBytes("utf-8"));
             MessageDigest md = MessageDigest.getInstance("MD5");
             byte[] digestOfPassword = md.digest(secretKey.getBytes("utf-8"));
             byte[] keyBytes = Arrays.copyOf(digestOfPassword, 24);
