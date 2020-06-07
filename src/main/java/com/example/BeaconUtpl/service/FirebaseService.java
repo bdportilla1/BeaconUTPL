@@ -347,11 +347,38 @@ public class FirebaseService {
 		
 		
 	}
-	public void eliminarBeacon(String _id) {
+	public void eliminarBeacon(String _id) throws InterruptedException, ExecutionException {
 		Firestore dbFirestore = FirestoreClient.getFirestore();
 		ApiFuture<WriteResult> writeResult = dbFirestore.collection("beacons").document(_id).delete();
 		// Se elimina la asignacion en caso de que el beacon registrado cuente con una
-		ApiFuture<WriteResult> writeResult2 = dbFirestore.collection("asignaciones").document(_id).delete();
+		
+		
+		DocumentReference docRef = dbFirestore.collection("beacons").document(_id);
+		ApiFuture<DocumentSnapshot> areaFuture = docRef.get();
+		DocumentSnapshot objBeacon = areaFuture.get();
+		
+		
+		// Si el beacon que se elimina se encontraba vinvulado a un area se cambia el estado del area a disponible
+		if(objBeacon.get("estado")!=null){
+			// Se ontiene la referencia de la asignacion a eliminar
+			DocumentReference docRefAsignacion = dbFirestore.collection("asignaciones").document(_id);
+			ApiFuture<DocumentSnapshot> asignacionFuture = docRefAsignacion.get();
+			DocumentSnapshot objAsignacion = asignacionFuture.get();
+			
+			Map<String, Object> updateArea = new HashMap<>();
+			updateArea.put("estado", "Disponible");
+			// Se actualiza la disponiblidad del area vinculada
+			ApiFuture<WriteResult> writeResult2=
+			    dbFirestore
+			        .collection("areas")
+			        .document(objAsignacion.get("area").toString())
+			        .set(updateArea, SetOptions.merge());
+			// ...
+			ApiFuture<WriteResult> writeResult3 = dbFirestore.collection("asignaciones").document(_id).delete();
+		}
+		
+		
+		
 	}
 	public void eliminarNotificacion(String _id) {
 		Firestore dbFirestore = FirestoreClient.getFirestore();
@@ -364,6 +391,7 @@ public class FirebaseService {
 		DocumentReference docRefAsignacion = dbFirestore.collection("asignaciones").document(_id);
 		ApiFuture<DocumentSnapshot> asignacionFuture = docRefAsignacion.get();
 		DocumentSnapshot objAsignacion = asignacionFuture.get();
+		
 		
 		Map<String, Object> updateArea = new HashMap<>();
 		updateArea.put("estado", "Disponible");
