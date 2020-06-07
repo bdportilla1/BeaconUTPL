@@ -24,9 +24,10 @@
 							<th scope="col">#</th>
 							<th scope="col">UID</th>
 							<th scope="col">Código</th>
-							<th scope="col">Estado</th>
+							<th scope="col">Asignado</th>
 							<th scope="col">Notificacion</th>
 							<th scope="col">Protocolo</th>
+							<th scope="col">Vincular</th>
 							<th scope="col">Editar</th>
 							<th scope="col">Eliminar</th>
 						  </tr>
@@ -100,6 +101,40 @@
 				  </div>
 				</div>
 			  </div>
+
+
+			  <div class="modal fade" id="modal_beacon_asignar" role="dialog">
+				<div class="modal-dialog">
+				  <!-- Modal content-->
+				  <div class="modal-content">
+					<div class="modal-header">
+					<h4 class="modal-title">Vincular Área</h4>
+					  <button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+					<div class="modal-body">
+						<form id="formBeacon" action="/registrarAsignacion" method="post">
+							<input type="text" id="_idBeaconAsignar" name="_idBeacon">
+							<div class="row mt-4 mb-4">
+								<div class="col-sm-12">
+									<label for="Area Disponible">Área disponible</label>
+									<div class="form-group">
+									  <select class="form-control" id="areas_disponibles" name="_idArea"> 
+									  </select>
+									</div>
+								</div>
+							</div>
+							<button type="submit" id="btnAsignarArea" class="btn btn-success">Vincular Área</button>
+						</form>
+						
+					</div>
+					<div class="modal-footer">
+					  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				  </div>
+				</div>
+			  </div>
+
+
 		</div>
     </div>
   </body>

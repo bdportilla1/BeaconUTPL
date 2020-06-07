@@ -18,7 +18,6 @@ import com.example.BeaconUtpl.Entities.Usuario;
 import com.example.BeaconUtpl.service.FirebaseService;
 
 
-	
 	@Controller
 	public class ControllerRoutes {
 		
@@ -234,7 +233,7 @@ import com.example.BeaconUtpl.service.FirebaseService;
 		
 	
 		@PostMapping("/registrarNotificacion")
-		public String postExample(@RequestParam(name="_id", required=false) String _id, 
+		public String registrarNotificacion(@RequestParam(name="_id", required=false) String _id, 
 				@RequestParam(name="tipo", required=false) String tipo, 
 	    		@RequestParam(name="descripcion", required=false) String descripcion,
 	    		Model model) throws InterruptedException, ExecutionException {
@@ -244,6 +243,19 @@ import com.example.BeaconUtpl.service.FirebaseService;
 			model.addAttribute("sesionActual", sesion);
 			return vista;
 		}
+		
+		@PostMapping("/registrarAsignacion")
+		public String registrarAsignacion(@RequestParam(name="_idBeacon", required=false) String _idBeacon, 
+				@RequestParam(name="_idArea", required=false) String _idArea,
+	    		Model model) throws InterruptedException, ExecutionException {
+			String vista= "gestion_beacons";
+			firebaseService.guardarAsignacion(_idBeacon, _idArea);
+			model.addAttribute("sesionActual", sesion);
+			return vista;
+		}
+		
+		
+		
 		@PostMapping("/eliminarNotificacion")
 		public String eliminarNotificacion(@RequestParam(name="_id", required=false) String _id,
 	    		Model model) throws InterruptedException, ExecutionException {

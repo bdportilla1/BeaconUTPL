@@ -8,6 +8,8 @@ var combo_tiposNotificacion;
 var combo_pisos;
 var combo_areas;
 
+var combo_areasDisponibles;
+
 
 var areas=0;
 var beacons=0;
@@ -15,6 +17,7 @@ var notificaciones=0;
 
 const url_usuarios = 'https://beacon-utpl.herokuapp.com/api/usuarios';
 const url_beacons = 'https://beacon-utpl.herokuapp.com/api/beacons';
+const url_areas = 'https://beacon-utpl.herokuapp.com/api/areas';
 
 
 function cargar_Usuarios(){
@@ -58,22 +61,46 @@ function cargar_Beacons(){
 		for(let valor of datos){
 			console.log(valor.uid);
             cont = cont+1;
-            tabla_beacons.innerHTML += `
-            <tr>
-            <th scope="row">`+ cont +` </th>
-                <td>${valor.uid}</td>
-                <td>${valor.codigo}</td>
-                <td>${valor.estado}</td>
-                <td>${valor.notificacion}</td>
-                <td>${valor.protocolo}</td>
-                <td><button class="btn btn-warning" onclick="editarBeacon('${valor.uid}', '${valor.uid}', '${valor.codigo}', '${valor.estado}', '${valor.notificacion}', '${valor.protocolo}')" >Editar</button></td>
-                <td><form action="/eliminarBeacon" method="POST">
-                    <input type="text" name="_id" class="form-control" value="${valor.uid}" style="display: none;">
-                    <button type="submit" class="btn btn-danger">Eliminar</button>
-                </form>	</td>
-            </tr>
-            `
-            
+       
+                if(valor.estado!=""){
+                    tabla_beacons.innerHTML += `
+                    <tr>
+		                <th scope="row">`+ cont +` </th>
+	                    <td>${valor.uid}</td>
+	                    <td>${valor.codigo}</td>
+	                    <td>${valor.estado}</td>
+	                    <td>${valor.notificacion}</td>
+	                    <td>${valor.protocolo}</td>
+	                    <td><form action="/eliminarAsignacion" method="POST">
+                        	<input type="text" name="_idAsignacion" class="form-control" value="${valor.uid}" style="display: none;">
+                        	<button type="submit" class="btn btn-danger">Quitar</button>
+		                </form></td>
+		                <td><button class="btn btn-warning" onclick="editarBeacon('${valor.uid}', '${valor.uid}', '${valor.codigo}', '${valor.estado}', '${valor.notificacion}', '${valor.protocolo}')" >Editar</button></td>
+                        <td><form action="/eliminarBeacon" method="POST">
+                            <input type="text" name="_id" class="form-control" value="${valor.uid}" style="display: none;">
+                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                        </form>	</td>
+                    </tr>
+                    `
+                }else{
+                    tabla_beacons.innerHTML += `
+                    <tr>
+	                    <th scope="row">`+ cont +` </th>
+                        <td>${valor.uid}</td>
+                        <td>${valor.codigo}</td>
+                        <td>${valor.estado}</td>
+                        <td>${valor.notificacion}</td>
+                        <td>${valor.protocolo}</td>
+	                    <td><button class="btn btn-success" onclick="vincularArea('${valor.uid}')" >Asignar</button></td>
+                        <td><button class="btn btn-warning" onclick="editarBeacon('${valor.uid}', '${valor.uid}', '${valor.codigo}', '${valor.estado}', '${valor.notificacion}', '${valor.protocolo}')" >Editar</button></td>
+                        <td><form action="/eliminarBeacon" method="POST">
+                            <input type="text" name="_id" class="form-control" value="${valor.uid}" style="display: none;">
+                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                        </form>	</td>
+                    </tr>
+                    `
+                }
+ 
 		}
     }).catch(err => console.error(err));
 }
@@ -104,17 +131,24 @@ $(document).ready(function(){
         combo_tiposNotificacion = document.getElementById("tipo"); 
         combo_pisos = document.getElementById("piso"); 
         combo_areas = document.getElementById("referencia"); 
+
+        combo_areasDisponibles = document.getElementById("areas_disponibles");
         
         //cargarUsuarios();
         //cargar_Usuarios();
-        //cargar_Beacons();
+        cargar_Beacons();
         /*cargarBeacons();
-        cargarNotificaciones();
-        cargarAreas();*/
+        cargarNotificaciones();*/
+        //cargarAreas();
      
 
 });
 
+function guardarImg(){
+    var file = document.getElementById("imgArea");
+    var img_subir = file.files[0];
+    var upload = storageRef.child('img/'+ img_subir.name).put(img_subir);
+}
 
 function subirImg(){
 	var file = document.getElementById("imgArea");
@@ -182,6 +216,22 @@ function editarPerfil() {
     document.getElementById("pass1").disabled = false;
 }
 
+function vincularArea(id){
+	$('#modal_beacon_asignar').modal('show');
+    document.getElementById("_idBeaconAsignar").value = id;
+    combo_areasDisponibles.innerHTML='';
+    fetch(url_areas)
+    .then(res => res.json())
+    .then((datos) => {
+		for(let valor of datos){
+            combo_areasDisponibles.innerHTML += `
+            <option value="${valor.codigo}" >${valor.descripcion}</option>
+            `
+		}
+    }).catch(err => console.error(err));
+
+}
+
 
 function nuevoBeacon(){
     limpiar_camposBeacon();
@@ -230,9 +280,10 @@ function nuevoArea(){
     boton.innerHTML= 'Registrar Área';
 }
 
-function editarArea(id, descripcion, piso, referencia){
+function editarArea(id, nombre, descripcion, piso, referencia){
 	$('#modal_area').modal('show');
-	document.getElementById("_idArea").value = id;
+    document.getElementById("_idArea").value = id;
+    document.getElementById("nombre_area").value = nombre;
     document.getElementById("piso").value = piso;
     document.getElementById("descripcion_area").value = descripcion;
     document.getElementById("referencia").value = referencia;
@@ -318,10 +369,11 @@ function cargarAreas(){
             tabla_areas.innerHTML += `
             <tr>
             <th scope="row">`+ cont +` </th>
+                <td>${doc.data().nombre}</td>
                 <td>${doc.data().descripcion}</td>
                 <td>${doc.data().piso}</td>
                 <td>${doc.data().referencia}</td>
-                <td><button class="btn btn-warning" onclick="editarArea('${doc.id}', '${doc.data().descripcion}', '${doc.data().piso}', '${doc.data().referencia}')" >Editar</button></td>
+                <td><button class="btn btn-warning" onclick="editarArea('${doc.id}', '${doc.data().nombre}', '${doc.data().descripcion}', '${doc.data().piso}', '${doc.data().referencia}')" >Editar</button></td>
                 <td><form action="/eliminarArea" method="POST">
                     <input type="text" name="_id" class="form-control" value="${doc.id}" style="display: none;">
                     <button type="submit" class="btn btn-danger">Eliminar</button>

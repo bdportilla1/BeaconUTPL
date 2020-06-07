@@ -14,6 +14,7 @@ import javax.crypto.spec.SecretKeySpec;
 import org.springframework.stereotype.Service;
 
 import com.example.BeaconUtpl.Entities.Area;
+import com.example.BeaconUtpl.Entities.Asignacion;
 import com.example.BeaconUtpl.Entities.Beacon;
 import com.example.BeaconUtpl.Entities.Notificacion;
 import com.example.BeaconUtpl.Entities.Usuario;
@@ -99,12 +100,60 @@ public class FirebaseService {
 	public List<Area> getAreas() throws InterruptedException, ExecutionException {
 		Firestore dbFirestore = FirestoreClient.getFirestore();
 		ArrayList<Area> returnArray = new ArrayList();
+		Area objArea = new Area();
 		ApiFuture<QuerySnapshot> future = dbFirestore.collection("areas").get();
 		// future.get() blocks on response
 		List<QueryDocumentSnapshot> documents = future.get().getDocuments();
 		for (DocumentSnapshot document : documents) {
-			returnArray.add(document.toObject(Area.class));
+			objArea = document.toObject(Area.class);
+			String codigo = document.getId();
+			objArea.setCodigo(codigo);
+			
+			System.out.println(codigo);
+			returnArray.add(objArea);
 			//System.out.println(document.getId() + " => " + document.toObject(Usuario.class));
+		}
+		return returnArray;
+	}
+	
+	
+	public List<Asignacion> getAsignaciones() throws InterruptedException, ExecutionException {
+		Firestore dbFirestore = FirestoreClient.getFirestore();
+		String beacon;
+		String area;
+		Asignacion returnAsignacion = new Asignacion();		
+		
+		ArrayList<Asignacion> returnArray = new ArrayList();
+		ApiFuture<QuerySnapshot> future = dbFirestore.collection("asignaciones").get();
+		// future.get() blocks on response
+		List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+		for (DocumentSnapshot document : documents) {
+			
+			beacon = document.get("beacon").toString();
+			area = document.get("area").toString();
+			
+	
+			// Se obtiene la referencia de BEACON Apartir de asignaciones
+			DocumentReference docRefBeacon = dbFirestore.collection("beacons").document(beacon);
+			ApiFuture<DocumentSnapshot> beaconFuture = docRefBeacon.get();
+			DocumentSnapshot beaconObjeto = beaconFuture.get();
+			
+			DocumentReference docRefArea = dbFirestore.collection("areas").document(area);
+			ApiFuture<DocumentSnapshot> areaFuture = docRefArea.get();
+			DocumentSnapshot areaObjeto = areaFuture.get();
+			
+			// Setear los objetos en la clase asignacion
+			returnAsignacion.setObjBeacon(beaconObjeto.toObject(Beacon.class));
+			returnAsignacion.setObjArea(areaObjeto.toObject(Area.class));
+			returnAsignacion.setArea(area);
+			returnAsignacion.setBeacon(beacon);
+			
+			
+			// Se agrega a la lista de asignaciones
+			returnArray.add(returnAsignacion);
+			
+			
+			
 		}
 		return returnArray;
 	}
@@ -120,13 +169,16 @@ public class FirebaseService {
 		Map<String, Object> docData = new HashMap<>();
 		docData.put("nombre", area.getNombre());
 		docData.put("descripcion", area.getDescripcion());
-		docData.put("piso", area.getPiso() );
+		docData.put("piso", area.getPiso());
 		docData.put("referencia", area.getReferencia());
-		docData.put("url", area.getUrl());
-	
+		if(!area.getUrl().equals("")) {
+			docData.put("url", area.getUrl());
+		}
+		
 		if(_id.equals("null")) {
 			//guardar documento nuevo
 			ApiFuture<WriteResult> future = dbFirestore.collection("areas").document().set(docData);
+			
 		}else {	
 			//actualizar documento
 			ApiFuture<WriteResult> writeResult =
@@ -178,6 +230,19 @@ public class FirebaseService {
 			        .document(_id)
 			        .set(docData, SetOptions.merge());
 		}
+	}
+	
+	
+	
+	public void guardarAsignacion(String _idBeacon, String _idArea) throws InterruptedException, ExecutionException {
+		//Seteando el objeto Usuario
+		Firestore dbFirestore = FirestoreClient.getFirestore();
+		
+		Map<String, Object> docData = new HashMap<>();
+		docData.put("beacon", _idBeacon);
+		docData.put("area", _idArea );
+		ApiFuture<WriteResult> future = dbFirestore.collection("asignaciones").document(_idBeacon).set(docData);
+
 	}
 	
 	

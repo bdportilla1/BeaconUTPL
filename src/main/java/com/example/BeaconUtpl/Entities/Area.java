@@ -2,6 +2,8 @@ package com.example.BeaconUtpl.Entities;
 
 public class Area {
 	
+	
+	String codigo;
 	String nombre;
 	String descripcion;
 	String referencia;
@@ -16,6 +18,7 @@ public class Area {
 
 	public Area(String nombre, String descripcion, String referencia, String piso, String url) {
 		super();
+		
 		this.nombre = nombre;
 		this.descripcion = descripcion;
 		this.referencia = referencia;
@@ -23,9 +26,14 @@ public class Area {
 		this.url = url;
 	}
 
+	public String getCodigo() {
+		return codigo;
+	}
 
 
-
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
+	}
 
 
 	public String getNombre() {

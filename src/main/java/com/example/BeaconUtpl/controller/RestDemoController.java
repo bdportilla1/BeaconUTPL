@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.BeaconUtpl.Entities.Area;
+import com.example.BeaconUtpl.Entities.Asignacion;
 import com.example.BeaconUtpl.Entities.Beacon;
 import com.example.BeaconUtpl.Entities.Notificacion;
 import com.example.BeaconUtpl.Entities.Usuario;
@@ -47,5 +48,12 @@ public class RestDemoController {
 		System.out.println("Devuelto notificaciones");
 		return firebaseServise.getNotificaciones();
 	}
+	
+	@GetMapping("/asignaciones")
+	public List <Asignacion> listarAsignaciones() throws InterruptedException, ExecutionException{
+		System.out.println("Devuelto asignaciones");
+		return firebaseServise.getAsignaciones();
+	}
+	
 
 }

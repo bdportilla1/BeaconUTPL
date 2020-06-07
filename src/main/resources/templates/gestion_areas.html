@@ -21,6 +21,7 @@
 						<thead>
 						  <tr>
 							<th scope="col">#</th>
+							<th scope="col">Nombre</th>
 							<th scope="col">Descripción</th>
 							<th scope="col">Piso</th>
 							<th scope="col">Referencia</th>
@@ -63,7 +64,7 @@
 								
 							</div>
 							<div class="row mt-4 mb-4">
-								<div class="col-sm-6">
+								<div class="col-sm-12">
 									<label for="Descripción">Descripción</label>
 									<input id="descripcion_area" name="descripcion_area" type="text" class="form-control">
 								</div>
@@ -79,14 +80,14 @@
 								</div>
 								<div class="col-sm-6">
 									<label for="Imagen">Imagen</label>
-									<input type="file" id="imgArea" name="imgArea" accept="image/*">
-									<input id="url" name="url" type="text" class="form-control">
+									<input type="file" onchange="subirImg()" id="imgArea" name="imgArea" accept="image/*">
+									<input id="url" name="url" type="text" class="form-control" style="display: none;">
 								</div>
 								
 							</div>
 							<button type="submit" id="btnRegistrarArea" class="btn btn-success">Registrar Area</button>
 						</form>
-						<button onclick="subirImg()">Cargar</button>
+						
 						
 					</div>
 					<div class="modal-footer">
