@@ -135,6 +135,15 @@ public class FirebaseService {
 		return returnArray;
 	}
 	
+	public Beacon obtenerBeacon(String id) {
+		Firestore dbFirestore = FirestoreClient.getFirestore();
+		Beacon objBeacon = new Beacon();
+		
+		
+		return objBeacon;
+		
+	}
+	
 	
 	public List<Asignacion> getAsignaciones() throws InterruptedException, ExecutionException {
 		Firestore dbFirestore = FirestoreClient.getFirestore();
@@ -143,19 +152,20 @@ public class FirebaseService {
 		
 		Asignacion returnAsignacion = new Asignacion();		
 		ArrayList<Asignacion> returnArray = new ArrayList();
-		
-		
+
 		ApiFuture<QuerySnapshot> future = dbFirestore.collection("asignaciones").get();
 		// future.get() blocks on response
 		List<QueryDocumentSnapshot> documents = future.get().getDocuments();
 		for (DocumentSnapshot document : documents) {
+			returnAsignacion = document.toObject(Asignacion.class);
+			
 			
 			beacon = document.get("beacon").toString();
 			area = document.get("area").toString();
 			
 	
 			// Se obtiene la referencia de BEACON Apartir de asignaciones
-			DocumentReference docRefBeacon = dbFirestore.collection("beacons").document(beacon);
+			DocumentReference docRefBeacon = dbFirestore.document("beacons/"+beacon);
 			ApiFuture<DocumentSnapshot> beaconFuture = docRefBeacon.get();
 			DocumentSnapshot beaconObjeto = beaconFuture.get();
 			
@@ -163,7 +173,7 @@ public class FirebaseService {
 			ApiFuture<DocumentSnapshot> areaFuture = docRefArea.get();
 			DocumentSnapshot areaObjeto = areaFuture.get();
 			
-			System.out.println(areaObjeto.get("nombre"));
+			System.out.println(beaconObjeto.get("UID"));
 			
 			// Setear los objetos en la clase asignacion
 		
@@ -171,14 +181,12 @@ public class FirebaseService {
 			returnAsignacion.setObjArea(areaObjeto.toObject(Area.class));
 			returnAsignacion.getObjArea().setCodigo(area);
 			
-			returnAsignacion.setArea(area);
-			returnAsignacion.setBeacon(beacon);
+			//returnAsignacion.setArea(area);
+			//returnAsignacion.setBeacon(beaconObjeto.get("UID").toString());
 			
 			
 			// Se agrega a la lista de asignaciones
 			returnArray.add(returnAsignacion);
-			
-			
 			
 		}
 		return returnArray;
