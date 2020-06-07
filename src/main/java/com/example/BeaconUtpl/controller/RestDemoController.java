@@ -55,5 +55,16 @@ public class RestDemoController {
 		return firebaseServise.getAsignaciones();
 	}
 	
+	
+	
+	@GetMapping("/areasDisponibles")
+	public List <Area> listarAreasDisponibles() throws InterruptedException, ExecutionException{
+		System.out.println("Devuelto areas");
+		
+		List<Area> ls= firebaseServise.getAreasDisponibles();
+		System.out.println(ls.toString());
+		return ls;
+	}
+	
 
 }

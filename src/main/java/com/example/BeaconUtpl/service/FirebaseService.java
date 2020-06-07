@@ -117,6 +117,25 @@ public class FirebaseService {
 	}
 	
 	
+	public List<Area> getAreasDisponibles() throws InterruptedException, ExecutionException {
+		Firestore dbFirestore = FirestoreClient.getFirestore();
+		ArrayList<Area> returnArray = new ArrayList();
+		Area objArea = new Area();
+		ApiFuture<QuerySnapshot> future = dbFirestore.collection("areas").get();
+	
+		List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+		for (DocumentSnapshot document : documents) {
+			objArea = document.toObject(Area.class);
+			if(objArea.equals("Disponible")) {
+				String codigo = document.getId();
+				objArea.setCodigo(codigo);
+				returnArray.add(objArea);
+			}
+		}
+		return returnArray;
+	}
+	
+	
 	public List<Asignacion> getAsignaciones() throws InterruptedException, ExecutionException {
 		Firestore dbFirestore = FirestoreClient.getFirestore();
 		String beacon;
@@ -170,7 +189,7 @@ public class FirebaseService {
 		docData.put("nombre", area.getNombre());
 		docData.put("descripcion", area.getDescripcion());
 		docData.put("piso", area.getPiso());
-		docData.put("referencia", null);
+		docData.put("referencia", area.getEstado());
 		if(!area.getUrl().equals("")) {
 			docData.put("url", area.getUrl());
 		}
@@ -244,21 +263,35 @@ public class FirebaseService {
 		
 		
 		// Se obtiene referencia del area que se vincula
-		DocumentReference docRefBeacon = dbFirestore.collection("areas").document(_idArea);
-		ApiFuture<DocumentSnapshot> beaconFuture = docRefBeacon.get();
-		DocumentSnapshot objBeacon = beaconFuture.get();
+		DocumentReference docRefArea = dbFirestore.collection("areas").document(_idArea);
+		ApiFuture<DocumentSnapshot> areaFuture = docRefArea.get();
+		DocumentSnapshot objArea = areaFuture.get();
+		
+		
 
 		
 		
-		Map<String, Object> update = new HashMap<>();
-		update.put("estado", objBeacon.get("nombre"));
+		Map<String, Object> updateBeacon = new HashMap<>();
+		updateBeacon.put("estado", objArea.get("nombre"));
 
 		// Se actualiza la asignacion del beacon con el nombre del area
 		ApiFuture<WriteResult> writeResult =
 		    dbFirestore
 		        .collection("beacons")
 		        .document(_idBeacon)
-		        .set(update, SetOptions.merge());
+		        .set(updateBeacon, SetOptions.merge());
+		// ...
+		
+		
+		Map<String, Object> updateArea = new HashMap<>();
+		updateArea.put("estado", "No disponible");
+
+		// Se actualiza la asignacion del estado del area
+		ApiFuture<WriteResult> writeResult1 =
+		    dbFirestore
+		        .collection("areas")
+		        .document(_idArea)
+		        .set(updateArea, SetOptions.merge());
 		// ...
 		
 		ApiFuture<WriteResult> future = dbFirestore.collection("asignaciones").document(_idBeacon).set(docData);

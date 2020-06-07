@@ -189,11 +189,10 @@ import com.example.BeaconUtpl.service.FirebaseService;
 				@RequestParam(name="nombre_area", required=false) String nombre,
 				@RequestParam(name="descripcion_area", required=false) String descripcion,
 				@RequestParam(name="piso", required=false) String piso, 
-				@RequestParam(name="referencia", required=false) String referencia,
 				@RequestParam(name="url", required=false) String url,
 	    		Model model) throws InterruptedException, ExecutionException {
 			String vista= "gestion_areas";
-			Area area = new Area(nombre, descripcion, referencia, piso, url);
+			Area area = new Area(nombre, descripcion, "Disponible", piso, url);
 			firebaseService.guardarArea(_id, area);
 			model.addAttribute("sesionActual", sesion);
 			return vista;
