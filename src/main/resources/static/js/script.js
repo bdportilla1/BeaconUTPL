@@ -16,6 +16,8 @@ const url_usuarios = 'https://beacon-utpl.herokuapp.com/api/usuarios';
 const url_beacons = 'https://beacon-utpl.herokuapp.com/api/beacons';
 const url_areas = 'https://beacon-utpl.herokuapp.com/api/areas';
 
+const url_areasDisponibles = 'https://beacon-utpl.herokuapp.com/api/areasDisponibles';
+
 
 function cargar_Usuarios(){
 	fetch(url_usuarios)
@@ -246,7 +248,7 @@ function vincularArea(id){
 	$('#modal_beacon_asignar').modal('show');
     document.getElementById("_idBeaconAsignar").value = id;
     combo_areasDisponibles.innerHTML='';
-    fetch(url_areas)
+    fetch(url_areasDisponibles)
     .then(res => res.json())
     .then((datos) => {
 		for(let valor of datos){

@@ -126,7 +126,7 @@ public class FirebaseService {
 		List<QueryDocumentSnapshot> documents = future.get().getDocuments();
 		for (DocumentSnapshot document : documents) {
 			objArea = document.toObject(Area.class);
-			if(objArea.equals("Disponible")) {
+			if(objArea.getEstado().equals("Disponible")) {
 				String codigo = document.getId();
 				objArea.setCodigo(codigo);
 				returnArray.add(objArea);
