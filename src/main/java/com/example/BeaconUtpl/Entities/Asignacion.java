@@ -1,6 +1,5 @@
 package com.example.BeaconUtpl.Entities;
 
-import com.google.cloud.firestore.DocumentReference;
 
 public class Asignacion {
 
@@ -8,17 +7,11 @@ public class Asignacion {
 	private DocumentReference beacon;
 	private DocumentReference area;*/
 	
-	private String beacon;
-	private String area;
+	String beacon;
+	String area;
 	
-	private Beacon objBeacon;
-	private Area objArea;
-	
-	
-	
-	
-	
-	
+	Beacon objBeacon;
+	Area objArea;
 	public Asignacion() {
 		
 	}

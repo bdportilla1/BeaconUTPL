@@ -112,7 +112,7 @@ import com.example.BeaconUtpl.service.FirebaseService;
 			String vista="inicio";
 			sesion=null;
 			model.addAttribute("sesionActual", sesion);
-			return vista;	
+			return vista;
 		}
 		
 		
@@ -261,6 +261,14 @@ import com.example.BeaconUtpl.service.FirebaseService;
 	    		Model model) throws InterruptedException, ExecutionException {
 			String vista= "gestion_notificaciones";
 			firebaseService.eliminarNotificacion(_id);
+			model.addAttribute("sesionActual", sesion);
+			return vista;
+		}
+		@PostMapping("/eliminarAsignacion")
+		public String eliminarAsignacion(@RequestParam(name="_id", required=false) String _id,
+	    		Model model) throws InterruptedException, ExecutionException {
+			String vista= "gestion_beacons";
+			firebaseService.eliminarAsignacion(_id);
 			model.addAttribute("sesionActual", sesion);
 			return vista;
 		}

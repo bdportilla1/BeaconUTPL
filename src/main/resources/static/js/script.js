@@ -11,9 +11,6 @@ var combo_areas;
 var combo_areasDisponibles;
 
 
-var areas=0;
-var beacons=0;
-var notificaciones=0;
 
 const url_usuarios = 'https://beacon-utpl.herokuapp.com/api/usuarios';
 const url_beacons = 'https://beacon-utpl.herokuapp.com/api/beacons';
@@ -55,14 +52,14 @@ function cargar_Beacons(){
     fetch(url_beacons)
     .then(res => res.json())
     .then((datos) => {
-       console.log(datos);
+      
        cont =0;
        tabla_beacons.innerHTML='';
 		for(let valor of datos){
 			console.log(valor.uid);
             cont = cont+1;
        
-                if(valor.estado!=""){
+                if(valor.estado!=null){
                     tabla_beacons.innerHTML += `
                     <tr>
 		                <th scope="row">`+ cont +` </th>
@@ -72,7 +69,7 @@ function cargar_Beacons(){
 	                    <td>${valor.notificacion}</td>
 	                    <td>${valor.protocolo}</td>
 	                    <td><form action="/eliminarAsignacion" method="POST">
-                        	<input type="text" name="_idAsignacion" class="form-control" value="${valor.uid}" style="display: none;">
+                        	<input type="text" name="_id" class="form-control" value="${valor.uid}" style="display: none;">
                         	<button type="submit" class="btn btn-danger">Quitar</button>
 		                </form></td>
 		                <td><button class="btn btn-warning" onclick="editarBeacon('${valor.uid}', '${valor.uid}', '${valor.codigo}', '${valor.estado}', '${valor.notificacion}', '${valor.protocolo}')" >Editar</button></td>
@@ -88,7 +85,7 @@ function cargar_Beacons(){
 	                    <th scope="row">`+ cont +` </th>
                         <td>${valor.uid}</td>
                         <td>${valor.codigo}</td>
-                        <td>${valor.estado}</td>
+                        <td>-</td>
                         <td>${valor.notificacion}</td>
                         <td>${valor.protocolo}</td>
 	                    <td><button class="btn btn-success" onclick="vincularArea('${valor.uid}')" >Asignar</button></td>
@@ -103,6 +100,34 @@ function cargar_Beacons(){
  
 		}
     }).catch(err => console.error(err));
+}
+function cargar_Areas(){
+    tabla_areas.innerHTML='';
+    fetch(url_areas)
+    .then(res => res.json())
+    .then((datos) => {
+        cont =0;
+
+		for(let valor of datos){
+            cont = cont+1;
+            
+            tabla_areas.innerHTML += `
+            <tr>
+            <th scope="row">`+ cont +` </th>
+                <td>${valor.nombre}</td>
+                <td>${valor.descripcion}</td>
+                <td>${valor.piso}</td>
+                <td>${valor.estado}</td>
+                <td><button class="btn btn-warning" onclick="editarArea('${valor.codigo}', '${valor.nombre}', '${valor.descripcion}', '${valor.piso}', '${valor.estado}')" >Editar</button></td>
+                <td><form action="/eliminarArea" method="POST">
+                    <input type="text" name="_id" class="form-control" value="${valor.codigo}" style="display: none;">
+                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                </form>	</td>
+            </tr>
+            `
+		}
+    }).catch(err => console.error(err));
+
 }
 
 
@@ -137,6 +162,7 @@ $(document).ready(function(){
         //cargarUsuarios();
         //cargar_Usuarios();
         cargar_Beacons();
+        cargar_Areas();
         /*cargarBeacons();
         cargarNotificaciones();*/
         //cargarAreas();
@@ -225,7 +251,7 @@ function vincularArea(id){
     .then((datos) => {
 		for(let valor of datos){
             combo_areasDisponibles.innerHTML += `
-            <option value="${valor.codigo}" >${valor.descripcion}</option>
+            <option value="${valor.codigo}" >${valor.nombre}</option>
             `
 		}
     }).catch(err => console.error(err));
@@ -291,32 +317,6 @@ function editarArea(id, nombre, descripcion, piso, referencia){
     boton.innerHTML= 'Actualizar Área';
 }
 
-
-function cargarBeacons(){
-    db.collection("beacons").onSnapshot((querySnapshot) => {
-        var cont=0;
-        tabla_beacons.innerHTML='';
-        querySnapshot.forEach((doc) => {
-            cont = cont +1;
-            tabla_beacons.innerHTML += `
-            <tr>
-            <th scope="row">`+ cont +` </th>
-                <td>${doc.data().UID}</td>
-                <td>${doc.data().codigo}</td>
-                <td>${doc.data().estado}</td>
-                <td>${doc.data().notificacion}</td>
-                <td>${doc.data().protocolo}</td>
-                <td><button class="btn btn-warning" onclick="editarBeacon('${doc.id}', '${doc.data().UID}', '${doc.data().codigo}', '${doc.data().estado}', '${doc.data().notificacion}', '${doc.data().protocolo}')" >Editar</button></td>
-                <td><form action="/eliminarBeacon" method="POST">
-                    <input type="text" name="_id" class="form-control" value="${doc.id}" style="display: none;">
-                    <button type="submit" class="btn btn-danger">Eliminar</button>
-                </form>	</td>
-            </tr>
-            `
-        });
-    });
-    beacons=1;
-}
 
 
 function cargarNotificaciones(){

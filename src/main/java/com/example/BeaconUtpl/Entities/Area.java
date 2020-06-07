@@ -6,7 +6,7 @@ public class Area {
 	String codigo;
 	String nombre;
 	String descripcion;
-	String referencia;
+	String estado;
 	String piso;
 	String url;
 	
@@ -16,12 +16,12 @@ public class Area {
 	}
 
 
-	public Area(String nombre, String descripcion, String referencia, String piso, String url) {
+	public Area(String nombre, String descripcion, String estado, String piso, String url) {
 		super();
 		
 		this.nombre = nombre;
 		this.descripcion = descripcion;
-		this.referencia = referencia;
+		this.estado = estado;
 		this.piso = piso;
 		this.url = url;
 	}
@@ -56,13 +56,13 @@ public class Area {
 	}
 
 
-	public String getReferencia() {
-		return referencia;
+	public String getEstado() {
+		return estado;
 	}
 
 
-	public void setReferencia(String referencia) {
-		this.referencia = referencia;
+	public void setEstado(String estado) {
+		this.estado = estado;
 	}
 
 

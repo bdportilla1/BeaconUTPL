@@ -170,7 +170,7 @@ public class FirebaseService {
 		docData.put("nombre", area.getNombre());
 		docData.put("descripcion", area.getDescripcion());
 		docData.put("piso", area.getPiso());
-		docData.put("referencia", area.getReferencia());
+		docData.put("referencia", null);
 		if(!area.getUrl().equals("")) {
 			docData.put("url", area.getUrl());
 		}
@@ -195,7 +195,7 @@ public class FirebaseService {
 		Map<String, Object> docData = new HashMap<>();
 		docData.put("UID", beacon.getUID());
 		docData.put("codigo", beacon.getCodigo());
-		docData.put("estado", beacon.getEstado());
+		docData.put("estado", null);
 		docData.put("notificacion", beacon.getNotificacion());
 		docData.put("protocolo", beacon.getProtocolo());
 	
@@ -241,6 +241,26 @@ public class FirebaseService {
 		Map<String, Object> docData = new HashMap<>();
 		docData.put("beacon", _idBeacon);
 		docData.put("area", _idArea );
+		
+		
+		// Se obtiene referencia del area que se vincula
+		DocumentReference docRefBeacon = dbFirestore.collection("areas").document(_idArea);
+		ApiFuture<DocumentSnapshot> beaconFuture = docRefBeacon.get();
+		DocumentSnapshot objBeacon = beaconFuture.get();
+
+		
+		
+		Map<String, Object> update = new HashMap<>();
+		update.put("estado", objBeacon.get("nombre"));
+
+		// Se actualiza la asignacion del beacon con el nombre del area
+		ApiFuture<WriteResult> writeResult =
+		    dbFirestore
+		        .collection("beacons")
+		        .document(_idBeacon)
+		        .set(update, SetOptions.merge());
+		// ...
+		
 		ApiFuture<WriteResult> future = dbFirestore.collection("asignaciones").document(_idBeacon).set(docData);
 
 	}
@@ -293,6 +313,20 @@ public class FirebaseService {
 	public void eliminarNotificacion(String _id) {
 		Firestore dbFirestore = FirestoreClient.getFirestore();
 		ApiFuture<WriteResult> writeResult = dbFirestore.collection("notificaciones").document(_id).delete();
+	}
+	public void eliminarAsignacion(String _id) {
+		Firestore dbFirestore = FirestoreClient.getFirestore();
+		ApiFuture<WriteResult> writeResult = dbFirestore.collection("asignaciones").document(_id).delete();
+		
+		Map<String, Object> update = new HashMap<>();
+		update.put("estado", null);
+		// Se actualiza la asignacion del beacon con el nombre del area
+		ApiFuture<WriteResult> writeResult2 =
+		    dbFirestore
+		        .collection("beacons")
+		        .document(_id)
+		        .set(update, SetOptions.merge());
+		// ...
 	}
 	
 	
