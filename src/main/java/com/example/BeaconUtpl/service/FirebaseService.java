@@ -169,22 +169,17 @@ public class FirebaseService {
 			ApiFuture<DocumentSnapshot> beaconFuture = docRefBeacon.get();
 			DocumentSnapshot beaconObjeto = beaconFuture.get();
 			
-			DocumentReference docRefArea = dbFirestore.collection("areas").document(area);
+			DocumentReference docRefArea = dbFirestore.document("areas/"+area);
 			ApiFuture<DocumentSnapshot> areaFuture = docRefArea.get();
 			DocumentSnapshot areaObjeto = areaFuture.get();
 			
-			System.out.println(beaconObjeto.get("UID"));
 			
 			// Setear los objetos en la clase asignacion
 		
 			returnAsignacion.setObjBeacon(beaconObjeto.toObject(Beacon.class));
 			returnAsignacion.setObjArea(areaObjeto.toObject(Area.class));
 			returnAsignacion.getObjArea().setCodigo(area);
-			
-			//returnAsignacion.setArea(area);
-			//returnAsignacion.setBeacon(beaconObjeto.get("UID").toString());
-			
-			
+						
 			// Se agrega a la lista de asignaciones
 			returnArray.add(returnAsignacion);
 			
