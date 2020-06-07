@@ -142,8 +142,9 @@ public class FirebaseService {
 		String area;
 		
 		Asignacion returnAsignacion = new Asignacion();		
-		
 		ArrayList<Asignacion> returnArray = new ArrayList();
+		
+		
 		ApiFuture<QuerySnapshot> future = dbFirestore.collection("asignaciones").get();
 		// future.get() blocks on response
 		List<QueryDocumentSnapshot> documents = future.get().getDocuments();
@@ -162,6 +163,8 @@ public class FirebaseService {
 			ApiFuture<DocumentSnapshot> areaFuture = docRefArea.get();
 			DocumentSnapshot areaObjeto = areaFuture.get();
 			
+			System.out.println(areaObjeto.get("nombre"));
+			
 			// Setear los objetos en la clase asignacion
 		
 			returnAsignacion.setObjBeacon(beaconObjeto.toObject(Beacon.class));
@@ -169,7 +172,7 @@ public class FirebaseService {
 			returnAsignacion.getObjArea().setCodigo(area);
 			
 			returnAsignacion.setArea(area);
-			returnAsignacion.setBeacon(beacon);
+			returnAsignacion.setBeacon(beaconObjeto.get("uid").toString());
 			
 			
 			// Se agrega a la lista de asignaciones
