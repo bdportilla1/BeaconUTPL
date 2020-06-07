@@ -172,7 +172,7 @@ public class FirebaseService {
 			returnAsignacion.getObjArea().setCodigo(area);
 			
 			returnAsignacion.setArea(area);
-			returnAsignacion.setBeacon(beaconObjeto.get("uid").toString());
+			returnAsignacion.setBeacon(beacon);
 			
 			
 			// Se agrega a la lista de asignaciones
