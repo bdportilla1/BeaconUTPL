@@ -112,7 +112,6 @@ function cargar_Areas(){
 
 		for(let valor of datos){
             cont = cont+1;
-            
             tabla_areas.innerHTML += `
             <tr>
             <th scope="row">`+ cont +` </th>
@@ -123,10 +122,13 @@ function cargar_Areas(){
                 <td><button class="btn btn-warning" onclick="editarArea('${valor.codigo}', '${valor.nombre}', '${valor.descripcion}', '${valor.piso}', '${valor.estado}')" >Editar</button></td>
                 <td><form action="/eliminarArea" method="POST">
                     <input type="text" name="_id" class="form-control" value="${valor.codigo}" style="display: none;">
-                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                    <button id="btn${valor.codigo}" type="submit" class="btn btn-danger">Eliminar</button>
                 </form>	</td>
             </tr>
             `
+            if(valor.estado=="No disponible"){
+                document.getElementById('btn'+valor.codigo).disabled=true
+            }
 		}
     }).catch(err => console.error(err));
 

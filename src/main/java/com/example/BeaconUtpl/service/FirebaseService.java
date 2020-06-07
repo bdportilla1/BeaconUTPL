@@ -140,6 +140,7 @@ public class FirebaseService {
 		Firestore dbFirestore = FirestoreClient.getFirestore();
 		String beacon;
 		String area;
+		
 		Asignacion returnAsignacion = new Asignacion();		
 		
 		ArrayList<Asignacion> returnArray = new ArrayList();
@@ -162,8 +163,11 @@ public class FirebaseService {
 			DocumentSnapshot areaObjeto = areaFuture.get();
 			
 			// Setear los objetos en la clase asignacion
+		
 			returnAsignacion.setObjBeacon(beaconObjeto.toObject(Beacon.class));
 			returnAsignacion.setObjArea(areaObjeto.toObject(Area.class));
+			returnAsignacion.getObjArea().setCodigo(area);
+			
 			returnAsignacion.setArea(area);
 			returnAsignacion.setBeacon(beacon);
 			
@@ -267,10 +271,6 @@ public class FirebaseService {
 		ApiFuture<DocumentSnapshot> areaFuture = docRefArea.get();
 		DocumentSnapshot objArea = areaFuture.get();
 		
-		
-
-		
-		
 		Map<String, Object> updateBeacon = new HashMap<>();
 		updateBeacon.put("estado", objArea.get("nombre"));
 
@@ -335,9 +335,18 @@ public class FirebaseService {
 		Firestore dbFirestore = FirestoreClient.getFirestore();
 		ApiFuture<WriteResult> writeResult = dbFirestore.collection("usuarios").document(_id).delete();
 	}
-	public void eliminarArea(String _id) {
+	public void eliminarArea(String _id) throws InterruptedException, ExecutionException {
 		Firestore dbFirestore = FirestoreClient.getFirestore();
-		ApiFuture<WriteResult> writeResult = dbFirestore.collection("areas").document(_id).delete();
+		
+		DocumentReference docRef = dbFirestore.collection("areas").document(_id);
+		ApiFuture<DocumentSnapshot> areaFuture = docRef.get();
+		DocumentSnapshot obj = areaFuture.get();
+		
+		if(obj.get("estado").toString().equals("Disponible")) {
+			ApiFuture<WriteResult> writeResult = dbFirestore.collection("areas").document(_id).delete();
+		}
+		
+		
 	}
 	public void eliminarBeacon(String _id) {
 		Firestore dbFirestore = FirestoreClient.getFirestore();
@@ -347,14 +356,30 @@ public class FirebaseService {
 		Firestore dbFirestore = FirestoreClient.getFirestore();
 		ApiFuture<WriteResult> writeResult = dbFirestore.collection("notificaciones").document(_id).delete();
 	}
-	public void eliminarAsignacion(String _id) {
+	public void eliminarAsignacion(String _id) throws InterruptedException, ExecutionException {
 		Firestore dbFirestore = FirestoreClient.getFirestore();
-		ApiFuture<WriteResult> writeResult = dbFirestore.collection("asignaciones").document(_id).delete();
+		
+		// Se ontiene la referencia de la asignacion a eliminar
+		DocumentReference docRefAsignacion = dbFirestore.collection("asignacion").document(_id);
+		ApiFuture<DocumentSnapshot> asignacionFuture = docRefAsignacion.get();
+		DocumentSnapshot objAsignacion = asignacionFuture.get();
+		
+		Map<String, Object> updateArea = new HashMap<>();
+		updateArea.put("estado", "Disponible");
+		// Se actualiza la disponiblidad del area vinculada
+		ApiFuture<WriteResult> writeResult=
+		    dbFirestore
+		        .collection("areas")
+		        .document(objAsignacion.get("area").toString())
+		        .set(updateArea, SetOptions.merge());
+		// ...
+		
+		ApiFuture<WriteResult> writeResult2 = dbFirestore.collection("asignaciones").document(_id).delete();
 		
 		Map<String, Object> update = new HashMap<>();
 		update.put("estado", null);
 		// Se actualiza la asignacion del beacon con el nombre del area
-		ApiFuture<WriteResult> writeResult2 =
+		ApiFuture<WriteResult> writeResult3 =
 		    dbFirestore
 		        .collection("beacons")
 		        .document(_id)
