@@ -26,7 +26,6 @@
 							<th scope="col">Código</th>
 							<th scope="col">Asignado</th>
 							<th scope="col">Notificacion</th>
-							<th scope="col">Protocolo</th>
 							<th scope="col">Vincular</th>
 							<th scope="col">Editar</th>
 							<th scope="col">Eliminar</th>
@@ -52,7 +51,7 @@
 					<div class="modal-body">
 						<form id="formBeacon" action="/registrarBeacon" method="post">
 							<input type="text" id="_idBeacon" name="_id" style="display: none;">
-							<div class="row mt-4 mb-4">
+							<div id="uidBeacon" class="row mt-4 mb-4">
 								<div class="col-sm-12">
 									<label for="UID">UID</label>
 									<input id="UID" name="UID" type="text" class="form-control">
@@ -74,23 +73,6 @@
 									</div>
 								</div>
 
-							</div>
-							<div class="row mt-4 mb-4">
-								
-								<div class="col-sm-6">
-									<label for="Protocolo">Protocolo</label>
-									<input id="protocolo" name="protocolo" type="text" class="form-control">
-								</div>
-								<div class="col-sm-6">
-									<label for="Estado">Estado</label>
-									<div class="form-group">
-									  <select class="form-control" id="estado" name="estado"> 
-									    <option>Habilitado</option>
-									    <option>Deshabilitado</option>
-									  </select>
-									</div>
-								</div>
-						
 							</div>
 							<button type="submit" id="btnRegistrarBeacon" class="btn btn-success">Registrar Beacon</button>
 						</form>

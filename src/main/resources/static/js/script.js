@@ -69,7 +69,6 @@ function cargar_Beacons(){
 	                    <td>${valor.codigo}</td>
 	                    <td>${valor.estado}</td>
 	                    <td>${valor.notificacion}</td>
-	                    <td>${valor.protocolo}</td>
 	                    <td><form action="/eliminarAsignacion" method="POST">
                         	<input type="text" name="_id" class="form-control" value="${valor.uid}" style="display: none;">
                         	<button type="submit" class="btn btn-danger">Quitar</button>
@@ -89,7 +88,6 @@ function cargar_Beacons(){
                         <td>${valor.codigo}</td>
                         <td>-</td>
                         <td>${valor.notificacion}</td>
-                        <td>${valor.protocolo}</td>
 	                    <td><button class="btn btn-success" onclick="vincularArea('${valor.uid}')" >Asignar</button></td>
                         <td><button class="btn btn-warning" onclick="editarBeacon('${valor.uid}', '${valor.uid}', '${valor.codigo}', '${valor.estado}', '${valor.notificacion}', '${valor.protocolo}')" >Editar</button></td>
                         <td><form action="/eliminarBeacon" method="POST">
@@ -266,13 +264,16 @@ function vincularArea(id){
 function nuevoBeacon(){
     limpiar_camposBeacon();
     $('#modal_beacon').modal('show');
+   
+    $('#uidBeacon').show();
     document.getElementById("_idBeacon").value = "null";
     var boton = document.getElementById("btnRegistrarBeacon");
     boton.innerHTML= 'Registrar Beacon';
 }
 
 function editarBeacon(id, UID, codigo, estado, notificacion, protocolo){
-	$('#modal_beacon').modal('show');
+    $('#modal_beacon').modal('show');
+    $('#uidBeacon').hide();
 	document.getElementById("_idBeacon").value = id;
     document.getElementById("UID").value = UID;
     document.getElementById("codigo_beacon").value = codigo;
@@ -316,7 +317,6 @@ function editarArea(id, nombre, descripcion, piso, referencia){
     document.getElementById("nombre_area").value = nombre;
     document.getElementById("piso").value = piso;
     document.getElementById("descripcion_area").value = descripcion;
-    document.getElementById("referencia").value = referencia;
     var boton = document.getElementById("btnRegistrarArea");
     boton.innerHTML= 'Actualizar Área';
 }
@@ -415,16 +415,16 @@ function cargarAreas(){
 function limpiar_camposBeacon(){
     document.getElementById("UID").value = "";
     document.getElementById("codigo_beacon").value = "";
-    document.getElementById("estado").value = "";
+
     document.getElementById("notificacion").value ="";
-    document.getElementById("protocolo").value = "";
+
 }
 function limpiar_camposNotificacion(){
     document.getElementById("tipo").value = "";
     document.getElementById("descripcion").value = "";
 }
 function limpiar_camposArea(){
-    document.getElementById("referencia").value = "";
+	document.getElementById("nombre_area").value = "";
     document.getElementById("piso").value = "";
     document.getElementById("descripcion_area").value = "";
 }

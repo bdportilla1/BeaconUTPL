@@ -193,7 +193,7 @@ public class FirebaseService {
 		docData.put("nombre", area.getNombre());
 		docData.put("descripcion", area.getDescripcion());
 		docData.put("piso", area.getPiso());
-		docData.put("referencia", area.getEstado());
+		docData.put("estado", area.getEstado());
 		if(!area.getUrl().equals("")) {
 			docData.put("url", area.getUrl());
 		}
@@ -216,14 +216,13 @@ public class FirebaseService {
 		//Seteando el objeto Beacon
 		Firestore dbFirestore = FirestoreClient.getFirestore();
 		Map<String, Object> docData = new HashMap<>();
-		docData.put("UID", beacon.getUID());
 		docData.put("codigo", beacon.getCodigo());
-		docData.put("estado", null);
 		docData.put("notificacion", beacon.getNotificacion());
-		docData.put("protocolo", beacon.getProtocolo());
 	
 		if(_id.equals("null")) {
 			//guardar documento nuevo
+			docData.put("UID", beacon.getUID());
+			docData.put("estado", null);
 			
 			ApiFuture<WriteResult> future = dbFirestore.collection("beacons").document(beacon.getUID()).set(docData);
 		}else {	
@@ -351,6 +350,8 @@ public class FirebaseService {
 	public void eliminarBeacon(String _id) {
 		Firestore dbFirestore = FirestoreClient.getFirestore();
 		ApiFuture<WriteResult> writeResult = dbFirestore.collection("beacons").document(_id).delete();
+		// Se elimina la asignacion en caso de que el beacon registrado cuente con una
+		ApiFuture<WriteResult> writeResult2 = dbFirestore.collection("asignaciones").document(_id).delete();
 	}
 	public void eliminarNotificacion(String _id) {
 		Firestore dbFirestore = FirestoreClient.getFirestore();
@@ -360,7 +361,7 @@ public class FirebaseService {
 		Firestore dbFirestore = FirestoreClient.getFirestore();
 		
 		// Se ontiene la referencia de la asignacion a eliminar
-		DocumentReference docRefAsignacion = dbFirestore.collection("asignacion").document(_id);
+		DocumentReference docRefAsignacion = dbFirestore.collection("asignaciones").document(_id);
 		ApiFuture<DocumentSnapshot> asignacionFuture = docRefAsignacion.get();
 		DocumentSnapshot objAsignacion = asignacionFuture.get();
 		

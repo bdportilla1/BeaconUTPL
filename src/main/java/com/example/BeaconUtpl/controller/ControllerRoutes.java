@@ -210,12 +210,10 @@ import com.example.BeaconUtpl.service.FirebaseService;
 		public String registrarBeacon(@RequestParam(name="_id", required=false) String _id, 
 				@RequestParam(name="UID", required=false) String UID,
 				@RequestParam(name="codigo_beacon", required=false) String codigo_beacon, 
-				@RequestParam(name="estado", required=false) String estado, 
 				@RequestParam(name="notificacion", required=false) String notificacion, 
-				@RequestParam(name="protocolo", required=false) String protocolo, 
 	    		Model model) throws InterruptedException, ExecutionException {
 			String vista= "gestion_beacons";
-			Beacon beacon = new Beacon(UID, codigo_beacon, estado, notificacion, protocolo);
+			Beacon beacon = new Beacon(UID, codigo_beacon, null, notificacion);
 			firebaseService.guardarBeacon(_id, beacon);
 			model.addAttribute("sesionActual", sesion);
 			return vista;
