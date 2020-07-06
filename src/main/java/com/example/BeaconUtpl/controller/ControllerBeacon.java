@@ -6,20 +6,19 @@ import java.util.concurrent.ExecutionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.example.BeaconUtpl.Entities.Area;
-import com.example.BeaconUtpl.Entities.Beacon;
-import com.example.BeaconUtpl.Entities.Notificacion;
-import com.example.BeaconUtpl.Entities.Usuario;
+import com.example.BeaconUtpl.Models.Area;
+import com.example.BeaconUtpl.Models.Beacon;
+import com.example.BeaconUtpl.Models.Notificacion;
+import com.example.BeaconUtpl.Models.Usuario;
 import com.example.BeaconUtpl.service.FirebaseService;
 
 
 	@Controller
-	public class ControllerRoutes {
+	public class ControllerBeacon {
 		
 		Usuario sesion = null;
 		
@@ -240,7 +239,6 @@ import com.example.BeaconUtpl.service.FirebaseService;
 			model.addAttribute("sesionActual", sesion);
 			return vista;
 		}
-		
 		@PostMapping("/registrarAsignacion")
 		public String registrarAsignacion(@RequestParam(name="_idBeacon", required=false) String _idBeacon, 
 				@RequestParam(name="_idArea", required=false) String _idArea,
@@ -250,7 +248,6 @@ import com.example.BeaconUtpl.service.FirebaseService;
 			model.addAttribute("sesionActual", sesion);
 			return vista;
 		}
-		
 		
 		
 		@PostMapping("/eliminarNotificacion")
@@ -269,5 +266,4 @@ import com.example.BeaconUtpl.service.FirebaseService;
 			model.addAttribute("sesionActual", sesion);
 			return vista;
 		}
-		
 }

@@ -1,4 +1,4 @@
-package com.example.BeaconUtpl.Entities;
+package com.example.BeaconUtpl.Models;
 
 public class Beacon {
 	

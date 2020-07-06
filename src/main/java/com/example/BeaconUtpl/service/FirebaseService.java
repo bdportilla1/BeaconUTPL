@@ -13,11 +13,11 @@ import javax.crypto.spec.SecretKeySpec;
 
 import org.springframework.stereotype.Service;
 
-import com.example.BeaconUtpl.Entities.Area;
-import com.example.BeaconUtpl.Entities.Asignacion;
-import com.example.BeaconUtpl.Entities.Beacon;
-import com.example.BeaconUtpl.Entities.Notificacion;
-import com.example.BeaconUtpl.Entities.Usuario;
+import com.example.BeaconUtpl.Models.Area;
+import com.example.BeaconUtpl.Models.Asignacion;
+import com.example.BeaconUtpl.Models.Beacon;
+import com.example.BeaconUtpl.Models.Notificacion;
+import com.example.BeaconUtpl.Models.Usuario;
 import com.google.api.client.util.Base64;
 //import com.google.api.client.repackaged.org.apache.commons.codec.binary.Base64;
 import com.google.api.core.ApiFuture;
@@ -28,9 +28,9 @@ import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
 import com.google.cloud.firestore.SetOptions;
 import com.google.cloud.firestore.WriteResult;
-import com.google.cloud.storage.Bucket;
+
 import com.google.firebase.cloud.FirestoreClient;
-import com.google.firebase.cloud.StorageClient;
+
 
 @Service
 public class FirebaseService {
